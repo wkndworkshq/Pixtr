@@ -43,7 +43,7 @@ public class NetworkManager {
      * @param options
      * @return
      */
-    public Observable<CollectionDetailsPojo> getCollectionDetails(String pathId, @QueryMap Map<String, String> options) {
+    public Observable<List<CollectionDetailsPojo>> getCollectionDetails(String pathId, @QueryMap Map<String, String> options) {
         return networkInterface.getCollectionPhotos(pathId, options)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

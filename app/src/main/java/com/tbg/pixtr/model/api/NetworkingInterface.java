@@ -22,6 +22,6 @@ public interface NetworkingInterface {
     Observable<List<CollectionsPojo>> getCollections(@QueryMap Map<String, String> options);
 
     @GET("/collections/{collection_id}/photos")
-    Observable<CollectionDetailsPojo> getCollectionPhotos(@Path("collection_id") String collectionId, @QueryMap Map<String, String> options);
+    Observable<List<CollectionDetailsPojo>> getCollectionPhotos(@Path("collection_id") String collectionId, @QueryMap Map<String, String> options);
 
 }

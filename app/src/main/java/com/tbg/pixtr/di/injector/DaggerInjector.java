@@ -1,6 +1,13 @@
 package com.tbg.pixtr.di.injector;
 
 import com.tbg.pixtr.AppController;
+import com.tbg.pixtr.collection_detail.view.CollectionDetailActivity;
+import com.tbg.pixtr.detail.view.DetailActivity;
+import com.tbg.pixtr.di.component.AppComponent;
+import com.tbg.pixtr.di.component.DaggerAppComponent;
+import com.tbg.pixtr.di.component.DaggerHomeComponent;
+import com.tbg.pixtr.di.module.AppModule;
+import com.tbg.pixtr.di.module.HomeModule;
 import com.tbg.pixtr.home.view.HomeActivity;
 
 /**
@@ -8,14 +15,31 @@ import com.tbg.pixtr.home.view.HomeActivity;
  */
 
 public class DaggerInjector implements Injector {
+    private AppComponent appComponent;
 
     @Override
     public void init(AppController appController) {
-
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(appController))
+                .build();
     }
 
     @Override
     public void inject(HomeActivity activity) {
+        DaggerHomeComponent.builder()
+                .appComponent(appComponent)
+                .homeModule(new HomeModule(activity))
+                .build()
+                .inject(activity);
+    }
+
+    @Override
+    public void inject(DetailActivity activity) {
+
+    }
+
+    @Override
+    public void inject(CollectionDetailActivity activity) {
 
     }
 }

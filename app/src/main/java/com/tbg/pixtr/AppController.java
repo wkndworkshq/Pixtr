@@ -36,7 +36,7 @@ public class AppController extends Application {
      * Init Dagger.
      */
     public void initDagger() {
-        daggerInjector.init(this);
+        getDaggerInjector().init(this);
     }
 
 }
