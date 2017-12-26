@@ -1,13 +1,11 @@
 package com.tbg.pixtr.home.view;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.tbg.pixtr.R;
@@ -129,8 +127,4 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
 
     }
 
-    @Override
-    public void onPaletteGeneration(Drawable drawable, ImageView view) {
-        presenter.generatePallete(drawable, view);
-    }
 }

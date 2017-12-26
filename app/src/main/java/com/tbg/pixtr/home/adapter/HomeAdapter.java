@@ -3,12 +3,10 @@ package com.tbg.pixtr.home.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -66,6 +64,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .setDefaultRequestOptions(requestOptions)
                     .load(collections.get(position).coverPhoto.urls.regular)
                     .into(itemViewHolder.collectionImage);
+
             itemViewHolder.collectionTitle.setText(collections.get(position).title);
             itemViewHolder.itemView.setOnClickListener(view -> interactions.onClick(position));
         } else {
@@ -104,8 +103,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      */
     public interface ActivityInteractions {
         void onClick(int position);
-
-        void onPaletteGeneration(Drawable drawable, ImageView view);
     }
 
     public int getRandom() {

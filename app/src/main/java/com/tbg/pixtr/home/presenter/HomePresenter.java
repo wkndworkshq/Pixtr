@@ -1,12 +1,5 @@
 package com.tbg.pixtr.home.presenter;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v7.graphics.Palette;
-import android.widget.ImageView;
-
 import com.tbg.pixtr.home.view.HomeView;
 import com.tbg.pixtr.model.manager.NetworkManager;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
@@ -16,9 +9,7 @@ import com.tbg.pixtr.utils.misc.AppConstants;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -78,32 +69,6 @@ public class HomePresenter extends BasePresenter {
     public void onError(Throwable throwable) {
         view.hideProgress();
         view.onNetworkError(throwable);
-    }
-
-
-    /**
-     * Generate palette colors.
-     *
-     * @param drawable
-     */
-    public void generatePallete(Drawable drawable, ImageView view) {
-        Observable.fromCallable((Callable<Void>) () -> {
-            paletteLogic(((BitmapDrawable) drawable).getBitmap(), view);
-            return null;
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.computation())
-                .subscribe();
-    }
-
-    /**
-     * Palette color generation logic.
-     *
-     * @param bitmap
-     */
-    public void paletteLogic(Bitmap bitmap, ImageView imageView) {
-        if (bitmap != null) {
-            Palette.from(bitmap).generate(palette -> imageView.setBackground(new ColorDrawable(palette.getDarkVibrantSwatch().getPopulation())));
-        }
     }
 
 }
