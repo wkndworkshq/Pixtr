@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#E0E0E0</color>
     <color name="colorAccent">#FF4081</color>
     <color name="cardColor">#FAFAFA</color>
+    <color name="currentItemOverlay">@android:color/transparent</color>
+    <color name="itemOverlay">#cc000000</color>
 </resources>

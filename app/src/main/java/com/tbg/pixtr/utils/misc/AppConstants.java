@@ -11,5 +11,6 @@ public class AppConstants {
     public static final String PAGE_KEY = "page";
     public static final int HEADER_ITEM_TYPE = 0;
     public static final int ITEM_TYPE = 1;
-    public static final int TIMEOUT_TIME = 5000;
+    public static final int TIMEOUT_TIME = 15000;
+    public static final String INTENT_KEY_COLLECTION_ID = "COLLECTION_ID";
 }

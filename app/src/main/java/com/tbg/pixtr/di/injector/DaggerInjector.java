@@ -5,8 +5,10 @@ import com.tbg.pixtr.collection_detail.view.CollectionDetailActivity;
 import com.tbg.pixtr.detail.view.DetailActivity;
 import com.tbg.pixtr.di.component.AppComponent;
 import com.tbg.pixtr.di.component.DaggerAppComponent;
+import com.tbg.pixtr.di.component.DaggerCollectionDetailComponent;
 import com.tbg.pixtr.di.component.DaggerHomeComponent;
 import com.tbg.pixtr.di.module.AppModule;
+import com.tbg.pixtr.di.module.CollectionDetailModule;
 import com.tbg.pixtr.di.module.HomeModule;
 import com.tbg.pixtr.home.view.HomeActivity;
 
@@ -40,6 +42,12 @@ public class DaggerInjector implements Injector {
 
     @Override
     public void inject(CollectionDetailActivity activity) {
+        DaggerCollectionDetailComponent.builder()
+                .appComponent(appComponent)
+                .collectionDetailModule(new CollectionDetailModule(activity))
+                .build()
+                .inject(activity);
+
 
     }
 }

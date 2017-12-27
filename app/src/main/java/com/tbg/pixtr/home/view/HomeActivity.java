@@ -1,5 +1,6 @@
 package com.tbg.pixtr.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +10,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.tbg.pixtr.R;
+import com.tbg.pixtr.collection_detail.view.CollectionDetailActivity;
 import com.tbg.pixtr.di.injector.Injector;
 import com.tbg.pixtr.home.adapter.HomeAdapter;
 import com.tbg.pixtr.home.presenter.HomePresenter;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
 import com.tbg.pixtr.utils.base.BaseActivity;
+import com.tbg.pixtr.utils.misc.AppConstants;
 import com.tbg.pixtr.utils.misc.HomeItemDecorator;
 
 import java.util.List;
@@ -76,7 +79,6 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
         setSupportActionBar(toolbar);
         collections.setLayoutManager(layoutManager);
         collections.setItemAnimator(itemAnimator);
-        //collections.addItemDecoration(itemDecorator);
         adapter.setOnActivityInteraction(this);
         collections.setAdapter(adapter);
         collections.addOnScrollListener(toolbarElevation);
@@ -124,7 +126,9 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
      */
     @Override
     public void onClick(int position) {
-
+        Intent intent = new Intent(this, CollectionDetailActivity.class);
+        intent.putExtra(AppConstants.INTENT_KEY_COLLECTION_ID, adapter.getId(position));
+        startActivity(intent);
     }
 
 }

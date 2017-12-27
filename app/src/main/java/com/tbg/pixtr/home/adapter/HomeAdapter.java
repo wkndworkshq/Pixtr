@@ -110,4 +110,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return random.nextInt((3 - 0) + 1) + 0;
     }
 
+    public String getId(int position) {
+        return "" + collections.get(position).id;
+    }
+
 }
