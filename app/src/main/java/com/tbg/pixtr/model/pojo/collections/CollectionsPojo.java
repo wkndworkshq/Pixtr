@@ -49,4 +49,6 @@ public class CollectionsPojo {
     @Expose
     public Links___ links;
 
+    public int type = 1;
+
 }
