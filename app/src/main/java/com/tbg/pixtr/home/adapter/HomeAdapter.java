@@ -58,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
 
             RequestOptions requestOptions = new RequestOptions();
-            requestOptions.placeholder(new ColorDrawable(Color.parseColor("#FAFAFA")));
+            requestOptions.placeholder(new ColorDrawable(Color.parseColor("#424242")));
 
             Glide.with(context)
                     .setDefaultRequestOptions(requestOptions)

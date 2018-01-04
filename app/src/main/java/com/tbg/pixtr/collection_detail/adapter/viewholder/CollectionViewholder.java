@@ -21,6 +21,9 @@ public class CollectionViewholder extends RecyclerView.ViewHolder {
     @BindView(R.id.imageScrim)
     View imageScrim;
 
+    @BindView(R.id.divider)
+    public View divider;
+
     public CollectionViewholder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

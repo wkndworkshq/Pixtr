@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
+
         <activity
             android:name=".home.view.HomeActivity"
             android:theme="@style/AppTheme">
@@ -20,10 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".detail.view.DetailActivity" />
+
+        <activity
+            android:name=".detail.view.DetailActivity"
+            android:theme="@style/TransparentStatus.NavBarNormal" />
+
         <activity
             android:name=".collection_detail.view.CollectionDetailActivity"
-            android:theme="@style/TransparentStatus"/>
+            android:theme="@style/TransparentStatus" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

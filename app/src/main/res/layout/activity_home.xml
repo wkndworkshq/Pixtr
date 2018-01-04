@@ -10,13 +10,27 @@
         android:id="@+id/collections"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="1dp" />
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:paddingTop="24dp" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="1dp" />
+        android:layout_marginTop="24dp"
+        android:background="@color/colorPrimary"
+        android:elevation="1dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:text="Pixtr"
+            app:fontFamily="@font/montserrat_bold" />
+
+    </android.support.v7.widget.Toolbar>
 
     <ProgressBar
         android:id="@+id/progressBar"

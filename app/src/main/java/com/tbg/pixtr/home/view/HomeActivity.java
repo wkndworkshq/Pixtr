@@ -56,6 +56,7 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        super.setStatusFlags(statusFlags.TransparentStatusBar);
         super.onCreate(savedInstanceState);
     }
 
@@ -77,6 +78,7 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     @Override
     public void setupView() {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         collections.setLayoutManager(layoutManager);
         collections.setItemAnimator(itemAnimator);
         adapter.setOnActivityInteraction(this);

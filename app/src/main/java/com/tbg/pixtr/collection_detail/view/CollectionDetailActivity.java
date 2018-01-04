@@ -1,8 +1,11 @@
 package com.tbg.pixtr.collection_detail.view;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -10,9 +13,10 @@ import com.tbg.pixtr.R;
 import com.tbg.pixtr.collection_detail.adapter.CollectionAdapter;
 import com.tbg.pixtr.collection_detail.adapter.viewholder.CollectionViewholder;
 import com.tbg.pixtr.collection_detail.presenter.CollectionDetailPresenter;
+import com.tbg.pixtr.detail.view.DetailActivity;
 import com.tbg.pixtr.di.injector.Injector;
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
-import com.tbg.pixtr.utils.base.BaseActivityTransparent;
+import com.tbg.pixtr.utils.base.BaseActivity;
 import com.tbg.pixtr.utils.misc.AppConstants;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 
@@ -23,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CollectionDetailActivity extends BaseActivityTransparent implements CollectionDetailView, DiscreteScrollView.ScrollListener<CollectionViewholder>, DiscreteScrollView.OnItemChangedListener<CollectionViewholder> {
+public class CollectionDetailActivity extends BaseActivity implements CollectionDetailView, DiscreteScrollView.ScrollListener<CollectionViewholder>, DiscreteScrollView.OnItemChangedListener<CollectionViewholder>, CollectionAdapter.OnClickListener {
 
     @Inject
     CollectionDetailPresenter presenter;
@@ -35,6 +39,9 @@ public class CollectionDetailActivity extends BaseActivityTransparent implements
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Inject
     CollectionAdapter adapter;
@@ -50,6 +57,7 @@ public class CollectionDetailActivity extends BaseActivityTransparent implements
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_collection_detail);
         ButterKnife.bind(this);
+        super.setStatusFlags(statusFlags.TransparentStatusBarAndNavigationBar);
         super.onCreate(savedInstanceState);
         collectionId = getIntent().getStringExtra(AppConstants.INTENT_KEY_COLLECTION_ID);
         presenter.requestCollectionDetails();
@@ -74,6 +82,11 @@ public class CollectionDetailActivity extends BaseActivityTransparent implements
 
     @Override
     public void setupView() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        adapter.setOnClickListener(this);
         discreteScrollView.setAdapter(adapter);
         discreteScrollView.addScrollListener(this);
         discreteScrollView.addOnItemChangedListener(this);
@@ -118,7 +131,21 @@ public class CollectionDetailActivity extends BaseActivityTransparent implements
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
     private int interpolate(float fraction, int c1, int c2) {
         return (int) evaluator.evaluate(fraction, c1, c2);
+    }
+
+    @Override
+    public void onClick(int position) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
     }
 }

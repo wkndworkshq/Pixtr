@@ -8,6 +8,7 @@ import com.tbg.pixtr.model.pojo.common.Links__;
 import com.tbg.pixtr.model.pojo.common.Urls;
 import com.tbg.pixtr.model.pojo.common.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionDetailsPojo {
@@ -41,13 +42,13 @@ public class CollectionDetailsPojo {
     public User user;
     @SerializedName("current_user_collections")
     @Expose
-    public List<Object> currentUserCollections = null;
+    public List<Object> currentUserCollections = new ArrayList<>();
     @SerializedName("urls")
     @Expose
     public Urls urls;
     @SerializedName("categories")
     @Expose
-    public List<Category> categories = null;
+    public List<Category> categories = new ArrayList<>();
     @SerializedName("links")
     @Expose
     public Links__ links;

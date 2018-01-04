@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Pixtr</string>
+    <string name="artist_placeholder">XYZ artist</string>
+    <string name="location_placeholder">India</string>
+    <string name="likes_placholder">50 Likes</string>
 </resources>

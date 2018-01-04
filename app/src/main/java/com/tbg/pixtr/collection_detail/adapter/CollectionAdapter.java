@@ -22,6 +22,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
 
     private Context context;
     private ArrayList<CollectionDetailsPojo> data = new ArrayList<>();
+    private OnClickListener clickListener;
 
     public CollectionAdapter(Context context) {
         this.context = context;
@@ -39,6 +40,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
         Glide.with(context)
                 .load(data.get(position).urls.regular)
                 .into(holder.imagePreview);
+        holder.divider.setVisibility(position == data.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.itemView.setOnClickListener(view -> clickListener.onClick(position));
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.clickListener = onClickListener;
     }
 
     @Override
@@ -49,6 +56,10 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
     public void updateData(List<CollectionDetailsPojo> data) {
         this.data.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public interface OnClickListener {
+        void onClick(int position);
     }
 
 }

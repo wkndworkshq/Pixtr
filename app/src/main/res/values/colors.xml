@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F5F5F5</color>
-    <color name="colorPrimaryDark">#E0E0E0</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="cardColor">#FAFAFA</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorPrimary">#303030</color>
+    <color name="colorAccent">#00BFA5</color>
+    <color name="cardColor">#424242</color>
     <color name="currentItemOverlay">@android:color/transparent</color>
     <color name="itemOverlay">#cc000000</color>
+    <color name="detailTextColor">#87ffffff</color>
+    <color name="secondaryFabColor">#F5F5F5</color>
 </resources>

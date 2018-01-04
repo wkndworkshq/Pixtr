@@ -5,10 +5,7 @@ import android.os.Bundle;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.detail.presenter.DetailPresenter;
 import com.tbg.pixtr.di.injector.Injector;
-import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
 import com.tbg.pixtr.utils.base.BaseActivity;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,6 +20,7 @@ public class DetailActivity extends BaseActivity implements DetailView {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+        super.setStatusFlags(statusFlags.TransparentStatusBar);
         super.onCreate(savedInstanceState);
     }
 
@@ -43,21 +41,6 @@ public class DetailActivity extends BaseActivity implements DetailView {
 
     @Override
     public void setupView() {
-
-    }
-
-    @Override
-    public void dataReceived(List<CollectionDetailsPojo> data) {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
-
-    @Override
-    public void showProgress() {
 
     }
 }

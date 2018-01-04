@@ -1,9 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tbg.pixtr.detail.view.DetailActivity">
+    android:background="@color/colorPrimaryDark"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".70" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline">
+
+
+            <ImageView
+                android:id="@+id/artistImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_user"
+                android:tint="@color/detailTextColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/artistLbl"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@string/artist_placeholder"
+                android:textColor="@color/detailTextColor"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintBottom_toBottomOf="@+id/artistImage"
+                app:layout_constraintStart_toEndOf="@id/artistImage"
+                app:layout_constraintTop_toTopOf="@+id/artistImage" />
+
+
+            <ImageView
+                android:id="@+id/locationImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_location"
+                android:tint="@color/detailTextColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/artistImage" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/locationLbl"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@string/location_placeholder"
+                android:textColor="@color/detailTextColor"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintBottom_toBottomOf="@+id/locationImage"
+                app:layout_constraintStart_toEndOf="@+id/locationImage"
+                app:layout_constraintTop_toTopOf="@+id/locationImage" />
+
+
+            <ImageView
+                android:id="@+id/likeImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_likes"
+                android:tint="@color/detailTextColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/locationImage" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/likeLbl"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@string/likes_placholder"
+                android:textColor="@color/detailTextColor"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintBottom_toBottomOf="@+id/likeImage"
+                app:layout_constraintStart_toEndOf="@+id/likeImage"
+                app:layout_constraintTop_toTopOf="@+id/likeImage" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/downloadFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/secondaryFabColor"
+            android:src="@drawable/ic_download"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toTopOf="@+id/wallpaperFab"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/wallpaperFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="7dp"
+            android:src="@drawable/ic_wallpaper"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:pressedTranslationZ="9dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>
+

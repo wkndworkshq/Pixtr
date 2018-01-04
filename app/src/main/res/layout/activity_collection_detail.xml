@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     tools:context="com.tbg.pixtr.collection_detail.view.CollectionDetailActivity">
 
@@ -12,14 +12,23 @@
         android:id="@+id/collectionImages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:dsv_orientation="vertical"
-        android:fitsSystemWindows="true"/>
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:dsv_orientation="vertical" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:gravity="top" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </FrameLayout>
