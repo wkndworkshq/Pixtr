@@ -22,5 +22,4 @@ public class DetailPresenter extends BasePresenter {
     }
 
 
-
 }

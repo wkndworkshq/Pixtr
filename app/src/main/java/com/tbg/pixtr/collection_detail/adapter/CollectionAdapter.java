@@ -62,4 +62,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
         void onClick(int position);
     }
 
+    public CollectionDetailsPojo getData(int position) {
+        return data.get(position);
+    }
+
 }

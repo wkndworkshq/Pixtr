@@ -13,4 +13,7 @@ public class AppConstants {
     public static final int ITEM_TYPE = 1;
     public static final int TIMEOUT_TIME = 15000;
     public static final String INTENT_KEY_COLLECTION_ID = "COLLECTION_ID";
+    public static final String INTENT_DETAILS_DATA = "DETAIL_DATA";
+    public static final int REQUEST_DOWNLOAD_PERMISSION = 102;
+    public static final String APP_DOWNLOAD_FOLDER = "Pixtr";
 }

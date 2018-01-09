@@ -3,4 +3,7 @@
     <string name="artist_placeholder">XYZ artist</string>
     <string name="location_placeholder">India</string>
     <string name="likes_placholder">50 Likes</string>
+    <string name="set_wallpaper_placeholder">Set Wallpaper</string>
+    <string name="download_wallpaper_placeholder"> Download Wallpaper</string>
+    <string name="view_website_placeholdewr">Open web link</string>
 </resources>

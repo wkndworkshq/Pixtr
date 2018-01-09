@@ -7,5 +7,6 @@
     <color name="currentItemOverlay">@android:color/transparent</color>
     <color name="itemOverlay">#cc000000</color>
     <color name="detailTextColor">#87ffffff</color>
+    <color name="detailSecondaryTextColor">#67ffffff</color>
     <color name="secondaryFabColor">#F5F5F5</color>
 </resources>

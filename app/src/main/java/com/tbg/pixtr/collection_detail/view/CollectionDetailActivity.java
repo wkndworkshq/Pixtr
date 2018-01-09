@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.collection_detail.adapter.CollectionAdapter;
 import com.tbg.pixtr.collection_detail.adapter.viewholder.CollectionViewholder;
@@ -146,6 +147,7 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
     @Override
     public void onClick(int position) {
         Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(AppConstants.INTENT_DETAILS_DATA, new Gson().toJson(adapter.getData(position)));
         startActivity(intent);
     }
 }

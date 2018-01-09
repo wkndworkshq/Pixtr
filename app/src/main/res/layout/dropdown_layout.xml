@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/setWallpaperImage"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_wallpaper"
+        android:tint="@color/detailTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/setWallpaperLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/set_wallpaper_placeholder"
+        android:textColor="@color/detailTextColor"
+        app:fontFamily="@font/montserrat"
+        app:layout_constraintBottom_toBottomOf="@+id/setWallpaperImage"
+        app:layout_constraintStart_toEndOf="@+id/setWallpaperImage"
+        app:layout_constraintTop_toTopOf="@+id/setWallpaperImage" />
+
+    <ImageView
+        android:id="@+id/downWallpaperImage"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_download"
+        android:tint="@color/detailTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setWallpaperImage" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/downWallpaperLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/download_wallpaper_placeholder"
+        android:textColor="@color/detailTextColor"
+        app:fontFamily="@font/montserrat"
+        app:layout_constraintBottom_toBottomOf="@+id/downWallpaperImage"
+        app:layout_constraintStart_toEndOf="@+id/downWallpaperImage"
+        app:layout_constraintTop_toTopOf="@+id/downWallpaperImage" />
+
+    <ImageView
+        android:id="@+id/viewWebsiteImage"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_website"
+        android:tint="@color/detailTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/downWallpaperImage" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/viewWebsiteLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/view_website_placeholdewr"
+        android:textColor="@color/detailTextColor"
+        app:fontFamily="@font/montserrat"
+        app:layout_constraintBottom_toBottomOf="@+id/viewWebsiteImage"
+        app:layout_constraintStart_toEndOf="@+id/viewWebsiteImage"
+        app:layout_constraintTop_toTopOf="@+id/viewWebsiteImage" />
+
+</android.support.constraint.ConstraintLayout>
