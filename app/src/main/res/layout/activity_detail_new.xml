@@ -24,6 +24,20 @@
         android:id="@+id/bottomSheet"
         layout="@layout/bottomsheet_layout" />
 
+    <View
+        android:id="@+id/tintScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <com.tbg.pixtr.utils.custom.CustomFAB
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -31,7 +45,7 @@
         android:layout_marginBottom="78dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorAccent"
-        android:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         android:elevation="7dp"
         android:gravity="end|bottom"
         android:src="@drawable/ic_detail_fab"

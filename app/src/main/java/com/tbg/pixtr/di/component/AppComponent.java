@@ -2,6 +2,7 @@ package com.tbg.pixtr.di.component;
 
 import com.google.gson.Gson;
 import com.tbg.pixtr.AppController;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.di.module.AppModule;
 import com.tbg.pixtr.model.api.NetworkingInterface;
 import com.tbg.pixtr.model.manager.NetworkManager;
@@ -33,5 +34,7 @@ public interface AppComponent {
     NetworkManager providesNetworkManager();
 
     AppUtils provides();
+
+    SharedPreferencesUtil providesSharedPreferencesUtil();
 
 }

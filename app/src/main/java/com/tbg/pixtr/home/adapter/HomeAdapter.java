@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.home.adapter.viewholder.HeadViewHolder;
@@ -60,9 +61,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(new ColorDrawable(Color.parseColor("#424242")));
 
+            DrawableTransitionOptions drawableTransitionOptions = new DrawableTransitionOptions();
+            drawableTransitionOptions.crossFade();
+
             Glide.with(context)
                     .setDefaultRequestOptions(requestOptions)
                     .load(collections.get(position).coverPhoto.urls.regular)
+                    .transition(drawableTransitionOptions)
                     .into(itemViewHolder.collectionImage);
 
             itemViewHolder.collectionTitle.setText(collections.get(position).title);
@@ -112,6 +117,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public String getId(int position) {
         return "" + collections.get(position).id;
+    }
+
+    public CollectionsPojo getData(int position) {
+        return collections.get(position);
     }
 
 }

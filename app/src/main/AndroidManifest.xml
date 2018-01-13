@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <application
         android:name=".AppController"
@@ -22,18 +23,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".detail.view.DetailActivity"
             android:theme="@style/TransparentStatus_NavBarNormal" />
+
         <activity
             android:name=".collection_detail.view.CollectionDetailActivity"
             android:theme="@style/TransparentStatus" />
 
+        <activity
+            android:name=".settings.views.SettingsActivity"
+            android:theme="@style/AppTheme" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <activity android:name=".settings.views.SettingsActivity"></activity>
     </application>
 
 </manifest>

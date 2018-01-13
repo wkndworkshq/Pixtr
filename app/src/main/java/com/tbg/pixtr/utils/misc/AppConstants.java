@@ -13,7 +13,16 @@ public class AppConstants {
     public static final int ITEM_TYPE = 1;
     public static final int TIMEOUT_TIME = 15000;
     public static final String INTENT_KEY_COLLECTION_ID = "COLLECTION_ID";
+    public static final String INTENT_KEY_COLLECTION_DATA = "COLLECTION_DATA";
     public static final String INTENT_DETAILS_DATA = "DETAIL_DATA";
     public static final int REQUEST_DOWNLOAD_PERMISSION = 102;
+    public static final int REQUEST_SET_WALLPAPAER_PERMISSION = 101;
     public static final String APP_DOWNLOAD_FOLDER = "Pixtr";
+    public static final String UTM_PARAMS = "?utm_source=pixtr&utm_medium=referral&utm_campaign=api-credit";
+    public static final String CUSTOM_FONT_FAMILY = "sans-serif";
+    public static final String DATA_TYPE = "image/jpg";
+    public static final String MIME_TYPE = "mimeType";
+    public static final int WALLPAPER_INTENT_REQUEST_CODE = 103;
+    public static final String PIXTR_PREF_KEY = "PIXTR_PREFS";
+    public static final String SHARED_PREF_AUTO_UPDATE_ID = "AUTO_UPDATE_ID";
 }

@@ -34,6 +34,7 @@ public class CollectionDetailPresenter extends BasePresenter {
     }
 
     public void requestCollectionDetails() {
+        view.showProgress();
         Map<String, String> params = new HashMap<>();
         params.put(AppConstants.CLIENT_ID_KEY, AppConstants.CLIENT_ID);
         params.put(AppConstants.PAGE_KEY, "1");

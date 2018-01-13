@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.collection_detail.adapter.viewholder.CollectionViewholder;
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
@@ -37,9 +38,14 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
 
     @Override
     public void onBindViewHolder(CollectionViewholder holder, int position) {
+        DrawableTransitionOptions drawableTransitionOptions = new DrawableTransitionOptions();
+        drawableTransitionOptions.crossFade();
+
         Glide.with(context)
                 .load(data.get(position).urls.regular)
+                .transition(drawableTransitionOptions)
                 .into(holder.imagePreview);
+
         holder.divider.setVisibility(position == data.size() - 1 ? View.GONE : View.VISIBLE);
         holder.itemView.setOnClickListener(view -> clickListener.onClick(position));
     }

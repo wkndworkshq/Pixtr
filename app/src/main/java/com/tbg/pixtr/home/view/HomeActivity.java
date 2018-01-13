@@ -1,20 +1,25 @@
 package com.tbg.pixtr.home.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.collection_detail.view.CollectionDetailActivity;
 import com.tbg.pixtr.di.injector.Injector;
 import com.tbg.pixtr.home.adapter.HomeAdapter;
 import com.tbg.pixtr.home.presenter.HomePresenter;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
+import com.tbg.pixtr.settings.views.SettingsActivity;
 import com.tbg.pixtr.utils.base.BaseActivity;
 import com.tbg.pixtr.utils.misc.AppConstants;
 import com.tbg.pixtr.utils.misc.HomeItemDecorator;
@@ -130,7 +135,33 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     public void onClick(int position) {
         Intent intent = new Intent(this, CollectionDetailActivity.class);
         intent.putExtra(AppConstants.INTENT_KEY_COLLECTION_ID, adapter.getId(position));
+        intent.putExtra(AppConstants.INTENT_KEY_COLLECTION_DATA, new Gson().toJson(adapter.getData(position)));
         startActivity(intent);
     }
 
+
+    /**
+     * Menu Skeleton methods.
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_about_tbg) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.tbg.co"));
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.menu_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return true;
+    }
 }

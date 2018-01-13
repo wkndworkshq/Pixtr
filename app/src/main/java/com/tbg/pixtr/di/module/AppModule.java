@@ -2,6 +2,7 @@ package com.tbg.pixtr.di.module;
 
 import com.google.gson.Gson;
 import com.tbg.pixtr.AppController;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.model.api.NetworkingInterface;
 import com.tbg.pixtr.model.manager.NetworkManager;
 import com.tbg.pixtr.utils.misc.AppConstants;
@@ -71,6 +72,12 @@ public class AppModule {
     @Provides
     public AppUtils provides() {
         return new AppUtils();
+    }
+
+    @Singleton
+    @Provides
+    public SharedPreferencesUtil providesSharedPreferencesUtil() {
+        return new SharedPreferencesUtil(appController);
     }
 
 }

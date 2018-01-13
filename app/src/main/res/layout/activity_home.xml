@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|left"
             android:text="Pixtr"
+            android:textColor="@color/toolbarTextColor"
             app:fontFamily="@font/montserrat_bold" />
 
     </android.support.v7.widget.Toolbar>

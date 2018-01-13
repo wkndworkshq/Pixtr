@@ -18,13 +18,15 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/setWallpaperLbl"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:text="@string/set_wallpaper_placeholder"
         android:textColor="@color/detailTextColor"
         app:fontFamily="@font/montserrat"
         app:layout_constraintBottom_toBottomOf="@+id/setWallpaperImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/setWallpaperImage"
         app:layout_constraintTop_toTopOf="@+id/setWallpaperImage" />
 
@@ -41,13 +43,15 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/downWallpaperLbl"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:text="@string/download_wallpaper_placeholder"
         android:textColor="@color/detailTextColor"
         app:fontFamily="@font/montserrat"
         app:layout_constraintBottom_toBottomOf="@+id/downWallpaperImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/downWallpaperImage"
         app:layout_constraintTop_toTopOf="@+id/downWallpaperImage" />
 
@@ -66,13 +70,15 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/viewWebsiteLbl"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:text="@string/view_website_placeholdewr"
         android:textColor="@color/detailTextColor"
         app:fontFamily="@font/montserrat"
         app:layout_constraintBottom_toBottomOf="@+id/viewWebsiteImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/viewWebsiteImage"
         app:layout_constraintTop_toTopOf="@+id/viewWebsiteImage" />
 

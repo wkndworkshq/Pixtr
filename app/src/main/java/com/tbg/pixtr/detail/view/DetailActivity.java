@@ -2,7 +2,13 @@ package com.tbg.pixtr.detail.view;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.app.WallpaperManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,7 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -71,7 +77,21 @@ public class DetailActivity extends BaseActivity implements DetailView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.tintScrim)
+    View tintScrim;
+
     MaterialSheetFab materialSheetFab;
+
+    private int page = 1;
+
+    private long downloadReferenceId;
+
+    private DownloadManager downloadManager;
+
+    private IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +124,10 @@ public class DetailActivity extends BaseActivity implements DetailView {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        customFAB.hide();
+        showProgress();
         getWindow().setStatusBarColor(Color.parseColor("#80000000"));
         materialSheetFab = new MaterialSheetFab<>(customFAB, fab_sheet, overlay, ContextCompat.getColor(this, R.color.colorPrimary), ContextCompat.getColor(this, R.color.colorAccent));
-        locationLbl.setText(data.user.location);
+        locationLbl.setText(data.user.location == null ? "Not Available" : data.user.location);
         artistLbl.setText("By " + data.user.name);
         likeLbl.setText(data.likes + " Likes");
         Glide.with(this)
@@ -115,17 +135,29 @@ public class DetailActivity extends BaseActivity implements DetailView {
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        customFAB.hide();
+                        hideProgress();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        customFAB.show();
+                        hideProgress();
                         return false;
                     }
                 })
                 .into(imageView);
+    }
+
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+        tintScrim.setVisibility(View.VISIBLE);
+        customFAB.hide();
+    }
+
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+        tintScrim.setVisibility(View.GONE);
+        customFAB.show();
     }
 
     @OnClick({R.id.downWallpaperImage, R.id.downWallpaperLbl, R.id.setWallpaperImage, R.id.setWallpaperLbl, R.id.viewWebsiteImage, R.id.viewWebsiteLbl})
@@ -138,22 +170,32 @@ public class DetailActivity extends BaseActivity implements DetailView {
             }
         } else if (view.getId() == R.id.setWallpaperLbl || view.getId() == R.id.setWallpaperImage) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstants.REQUEST_DOWNLOAD_PERMISSION);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstants.REQUEST_SET_WALLPAPAER_PERMISSION);
             } else {
                 setWallpaperLogic();
             }
         } else if (view.getId() == R.id.viewWebsiteLbl || view.getId() == R.id.viewWebsiteImage) {
-            Toast.makeText(this, "Website", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.links.html + AppConstants.UTM_PARAMS));
+            startActivity(intent);
         }
         materialSheetFab.hideSheet();
     }
 
 
+    /**
+     * Request permission handler method,
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == AppConstants.REQUEST_DOWNLOAD_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             downloadData(data.urls.raw);
+        } else if (requestCode == AppConstants.REQUEST_SET_WALLPAPAER_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            setWallpaperLogic();
         }
     }
 
@@ -172,20 +214,86 @@ public class DetailActivity extends BaseActivity implements DetailView {
      * @param downloadURL
      */
     public void downloadData(String downloadURL) {
-        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request downLoadRequest = new DownloadManager.Request(Uri.parse(downloadURL));
         downLoadRequest.setTitle("Pixtr");
         downLoadRequest.setDescription("Downloading...");
         downLoadRequest.setDestinationInExternalPublicDir("/Pixtr", data.id + ".jpg");
         downLoadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        downloadManager.enqueue(downLoadRequest);
+        getDownloadManager().enqueue(downLoadRequest);
     }
 
+
     /**
-     * Set Wallpaper logic using Intent.
+     * Code to set wallpaper.
      */
     public void setWallpaperLogic() {
+        DownloadManager.Request downLoadRequest = new DownloadManager.Request(Uri.parse(data.urls.full));
+        downLoadRequest.setDestinationInExternalPublicDir("/Pixtr", data.id + ".jpg");
+        downLoadRequest.setVisibleInDownloadsUi(false);
+        downLoadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+        downloadReferenceId = getDownloadManager().enqueue(downLoadRequest);
+        showProgress();
+    }
 
+
+    /**
+     * Activity skelton methods.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(downloadReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(downloadReceiver);
+    }
+
+
+    /**
+     * Broadcast receiver download completion.
+     */
+    BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long downloadRefId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (downloadReferenceId == downloadRefId) {
+                DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadRefId);
+                Cursor cursor = getDownloadManager().query(query);
+                if (cursor.moveToFirst()) {
+                    int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                    switch (status) {
+                        case DownloadManager.STATUS_SUCCESSFUL:
+                            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, getDownloadManager().getUriForDownloadedFile(downloadRefId)));
+                            Uri imageUri = getDownloadManager().getUriForDownloadedFile(downloadRefId);
+                            Intent wallpaperIntent = WallpaperManager.getInstance(DetailActivity.this).getCropAndSetWallpaperIntent(imageUri);
+                            wallpaperIntent.setDataAndType(imageUri, AppConstants.DATA_TYPE);
+                            wallpaperIntent.putExtra(AppConstants.MIME_TYPE, AppConstants.DATA_TYPE);
+                            startActivityForResult(wallpaperIntent, AppConstants.WALLPAPER_INTENT_REQUEST_CODE);
+                            hideProgress();
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    };
+
+
+    /**
+     * Download Manager instance helper.
+     *
+     * @return
+     */
+    public DownloadManager getDownloadManager() {
+        if (downloadManager == null) {
+            downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        }
+        return downloadManager;
     }
 
 }

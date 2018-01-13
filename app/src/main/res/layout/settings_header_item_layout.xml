@@ -6,13 +6,13 @@
     android:background="@color/colorPrimary">
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/title"
+        android:id="@+id/item_title"
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Title"
         android:textColor="@color/detailTextColor"
         app:fontFamily="@font/montserrat_bold"

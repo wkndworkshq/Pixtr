@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tbg.pixtr.R;
+import com.tbg.pixtr.model.pojo.settings.SettingsPojo;
 import com.tbg.pixtr.settings.adapter.viewholder.SettingsHeaderViewHolder;
 import com.tbg.pixtr.settings.adapter.viewholder.SettingsItemViewHolder;
+
+import java.util.ArrayList;
 
 /**
  * Created by kausthubhadhikari on 08/01/18.
@@ -17,10 +20,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public static int HEADER_VIEW_TYPE = 1;
     public static int ITEM_VIEW_TYPE = 2;
-    public String[] title = {"Other", "Clear Cache", "Go to Unsplash.com", "Quality", "Load Quality", "Download Quality", "Wallpaper Quality"};
-    public String[] description = {"Cache size: ", "Choose the quality of the images that are loaded.", "Choose the quality of the images that are downloaded.", "Choose the quality of the wallpaper"};
-    public int[] itemViewType = {1, 2, 2, 1, 2, 2, 2};
     OnClickListener onClickListener;
+    ArrayList<SettingsPojo> settings = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,22 +43,27 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SettingsItemViewHolder) {
-            ((SettingsItemViewHolder) holder).description.setText(description[position]);
-            ((SettingsItemViewHolder) holder).title.setText(title[position]);
+            ((SettingsItemViewHolder) holder).description.setText(settings.get(position).descriptionName);
+            ((SettingsItemViewHolder) holder).title.setText(settings.get(position).headerName);
             holder.itemView.setOnClickListener(view -> onClickListener.OnClick(position));
         } else if (holder instanceof SettingsHeaderViewHolder) {
-            ((SettingsHeaderViewHolder) holder).title.setText(title[position]);
+            ((SettingsHeaderViewHolder) holder).title.setText(settings.get(position).headerName);
         }
     }
 
     @Override
     public int getItemCount() {
-        return title.length;
+        return settings.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return itemViewType[position];
+        return settings.get(position).type;
+    }
+
+    public void updateData(ArrayList<SettingsPojo> data){
+        this.settings = data;
+        notifyDataSetChanged();
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
@@ -65,6 +71,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface OnClickListener {
-        public void OnClick(int position);
+        void OnClick(int position);
     }
 }
