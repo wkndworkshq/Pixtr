@@ -32,18 +32,20 @@ public class HomePresenter extends BasePresenter {
     public void onViewCreated(boolean isLaunched) {
         view.setupView();
         if (isLaunched) {
-            retrieveCollections();
+            retrieveCollections(1, true);
         }
     }
 
     /**
      * Retrieve data from the API.
      */
-    public void retrieveCollections() {
-        view.showProgress();
+    public void retrieveCollections(int page, boolean flagProgress) {
+        if (flagProgress) {
+            view.showProgress();
+        }
         Map<String, String> params = new HashMap<>();
         params.put(AppConstants.CLIENT_ID_KEY, AppConstants.CLIENT_ID);
-        params.put(AppConstants.PAGE_KEY, "1");
+        params.put(AppConstants.PAGE_KEY, "" + page);
         addDisponsable(networkManager.getCollections(params).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::onDataReceived, this::onError));
     }
 
@@ -54,9 +56,11 @@ public class HomePresenter extends BasePresenter {
      */
     public void onDataReceived(List<CollectionsPojo> data) {
         List<CollectionsPojo> tempData = data;
-        CollectionsPojo collectionsPojo = new CollectionsPojo();
-        collectionsPojo.type = 0;
-        tempData.add(0, collectionsPojo);
+        if (data.size() != 0) {
+            CollectionsPojo collectionsPojo = new CollectionsPojo();
+            collectionsPojo.type = 0;
+            tempData.add(0, collectionsPojo);
+        }
         view.deliverData(tempData);
         view.hideProgress();
     }

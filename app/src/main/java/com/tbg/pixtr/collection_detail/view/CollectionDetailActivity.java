@@ -9,9 +9,9 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
@@ -35,7 +35,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CollectionDetailActivity extends BaseActivity implements CollectionDetailView, DiscreteScrollView.ScrollListener<CollectionViewholder>, DiscreteScrollView.OnItemChangedListener<CollectionViewholder>, CollectionAdapter.OnClickListener {
 
@@ -62,9 +61,6 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
     @BindView(R.id.placeholder_text)
     AppCompatTextView listBottomHolder;
 
-    @BindView(R.id.autoUpdate)
-    ImageButton autoUpdate;
-
     @Inject
     CollectionAdapter adapter;
 
@@ -80,6 +76,10 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
 
     private CollectionsPojo data;
 
+    private int page = 1;
+
+    private boolean loading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_collection_detail);
@@ -88,7 +88,7 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
         collectionId = getIntent().getStringExtra(AppConstants.INTENT_KEY_COLLECTION_ID);
         data = new Gson().fromJson(getIntent().getStringExtra(AppConstants.INTENT_KEY_COLLECTION_DATA), CollectionsPojo.class);
         super.onCreate(savedInstanceState);
-        presenter.requestCollectionDetails();
+        presenter.requestCollectionDetails(page, true);
         currentOverlayColor = ContextCompat.getColor(this, R.color.currentItemOverlay);
         overlayColor = ContextCompat.getColor(this, R.color.itemOverlay);
     }
@@ -105,7 +105,8 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
 
     @Override
     public void onNetworkError(Throwable throwable) {
-
+        loading = false;
+        page = (page == 0 ? 0 : page - 1);
     }
 
     @Override
@@ -113,10 +114,9 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
         SpannableString spannableString = new SpannableString(getString(R.string.collection_details_placholder));
         Typeface regTypeface = ResourcesCompat.getFont(this, R.font.montserrat);
         Typeface boldTypeface = ResourcesCompat.getFont(this, R.font.montserrat_bold);
-        spannableString.setSpan(new CustomTypefaceSpan(AppConstants.CUSTOM_FONT_FAMILY, regTypeface), 0, 1, 0);
-        spannableString.setSpan(new CustomTypefaceSpan(AppConstants.CUSTOM_FONT_FAMILY, boldTypeface), 2, spannableString.length(), 0);
+        spannableString.setSpan(new CustomTypefaceSpan(AppConstants.CUSTOM_FONT_FAMILY, regTypeface), 0, 12, 0);
+        spannableString.setSpan(new CustomTypefaceSpan(AppConstants.CUSTOM_FONT_FAMILY, boldTypeface), 13, spannableString.length(), 0);
         listBottomHolder.setText(spannableString);
-        autoUpdate.setImageResource(preferencesUtil.getAutoUpdateId().equals("" + data.id) ? R.drawable.ic_followed : R.drawable.ic_follow_collection);
 
         name.setText(data.title);
         noImages.setText(data.totalPhotos + " Photos");
@@ -134,6 +134,10 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
     @Override
     public void onDeliverData(List<CollectionDetailsPojo> data) {
         adapter.updateData(data);
+        loading = false;
+        if (listBottomHolder.getVisibility() == View.GONE) {
+            listBottomHolder.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -143,8 +147,10 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
 
     @Override
     public void hideProgress() {
-        discreteScrollView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            discreteScrollView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -167,6 +173,35 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
             collectionViewholder.setOverlayColor(interpolate(position, currentOverlayColor, overlayColor));
             newCollectionViewholder.setOverlayColor(interpolate(position, overlayColor, currentOverlayColor));
         }
+        int totalItemCount = discreteScrollView.getLayoutManager().getItemCount();
+        boolean endReachedFlag = currentIndex + 4 >= totalItemCount;
+        if (totalItemCount > 0 && endReachedFlag && !loading) {
+            loading = true;
+            page = page + 1;
+            presenter.requestCollectionDetails(page, false);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.collection_detail_menu, menu);
+        MenuItem autoUpdate = menu.findItem(R.id.follow_menu_item);
+
+        autoUpdate.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.follow_menu_item) {
+                if (!preferencesUtil.getAutoUpdateId().equals("" + data.id)) {
+                    preferencesUtil.clearData();
+                    preferencesUtil.saveAutoUpdateId(data.id);
+                } else {
+                    preferencesUtil.clearData();
+                }
+                autoUpdate.setIcon(preferencesUtil.getAutoUpdateId().equals("" + data.id) ? R.drawable.ic_followed : R.drawable.ic_follow_collection);
+            }
+            return true;
+        });
+
+        autoUpdate.setIcon(preferencesUtil.getAutoUpdateId().equals("" + data.id) ? R.drawable.ic_followed : R.drawable.ic_follow_collection);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -186,18 +221,5 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(AppConstants.INTENT_DETAILS_DATA, new Gson().toJson(adapter.getData(position)));
         startActivity(intent);
-    }
-
-    @OnClick({R.id.autoUpdate})
-    public void onClick(View view) {
-        if (view.getId() == R.id.autoUpdate) {
-            if (!preferencesUtil.getAutoUpdateId().equals("" + data.id)) {
-                preferencesUtil.clearData();
-                preferencesUtil.saveAutoUpdateId(data.id);
-            } else {
-                preferencesUtil.clearData();
-            }
-            autoUpdate.setImageResource(preferencesUtil.getAutoUpdateId().equals("" + data.id) ? R.drawable.ic_followed : R.drawable.ic_follow_collection);
-        }
     }
 }

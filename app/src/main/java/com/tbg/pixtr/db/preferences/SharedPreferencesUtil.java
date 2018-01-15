@@ -47,4 +47,65 @@ public class SharedPreferencesUtil {
         return sharedPreferences.getString(AppConstants.SHARED_PREF_AUTO_UPDATE_ID, "");
     }
 
+
+    /**
+     * Save the load quality.
+     *
+     * @param qualityFlag
+     */
+    public void setLoadQuality(int qualityFlag) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(AppConstants.SHARED_PREF_LOAD, qualityFlag).commit();
+    }
+
+
+    /***
+     *  Retrieve the load quality.
+     *
+     */
+    public int getLoadQuality() {
+        return sharedPreferences.getInt(AppConstants.SHARED_PREF_LOAD, 2);
+    }
+
+
+    /**
+     * Save the Wallpaper quality.
+     *
+     * @param quality
+     */
+    public void setWallpaperQuality(int quality) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(AppConstants.SHARED_PREF_WALLPAPER, quality).commit();
+    }
+
+
+    /**
+     * Retrieve the Wallpaper quality.
+     *
+     * @return
+     */
+    public int getWallpaperQuality() {
+        return sharedPreferences.getInt(AppConstants.SHARED_PREF_WALLPAPER, 1);
+    }
+
+
+    /**
+     * Save the download quality.
+     *
+     * @param quality
+     */
+    public void setDownloadQuality(int quality) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(AppConstants.SHARED_PREF_DOWNLOAD, quality).commit();
+    }
+
+
+    /**
+     * Retrieve the Download quality.
+     *
+     * @return
+     */
+    public int getDownloadQuality() {
+        return sharedPreferences.getInt(AppConstants.SHARED_PREF_DOWNLOAD, 0);
+    }
 }

@@ -5,8 +5,10 @@ import android.animation.ArgbEvaluator;
 import com.tbg.pixtr.collection_detail.adapter.CollectionAdapter;
 import com.tbg.pixtr.collection_detail.presenter.CollectionDetailPresenter;
 import com.tbg.pixtr.collection_detail.view.CollectionDetailActivity;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.di.scope.ActivityScope;
 import com.tbg.pixtr.model.manager.NetworkManager;
+import com.tbg.pixtr.utils.misc.AppUtils;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,8 +27,8 @@ public class CollectionDetailModule {
 
     @ActivityScope
     @Provides
-    public CollectionAdapter providesAdapter() {
-        return new CollectionAdapter(activity);
+    public CollectionAdapter providesAdapter(SharedPreferencesUtil preferencesUtil, AppUtils appUtils) {
+        return new CollectionAdapter(activity, preferencesUtil, appUtils);
     }
 
     @ActivityScope

@@ -25,4 +25,20 @@ public class AppConstants {
     public static final int WALLPAPER_INTENT_REQUEST_CODE = 103;
     public static final String PIXTR_PREF_KEY = "PIXTR_PREFS";
     public static final String SHARED_PREF_AUTO_UPDATE_ID = "AUTO_UPDATE_ID";
+    public static final int QUALITY_KEY_RAW = 0;
+    public static final int QUALITY_KEY_FULL = 1;
+    public static final int QUALITY_KEY_REG = 2;
+    public static final int QUALITY_KEY_SMALL = 3;
+    public static final int QUALITY_KEY_THUMB = 4;
+    public static final String SHARED_PREF_LOAD = "LOAD_QUALITY";
+    public static final String SHARED_PREF_WALLPAPER = "WALLPAPER_QUALITY";
+    public static final String SHARED_PREF_DOWNLOAD = "DOWNLOAD_QUALITY";
+
+    public enum QUALITY_FLAGS {
+        WALLPAPER,
+        LOAD,
+        DOWNLOAD
+    }
+
+    ;
 }

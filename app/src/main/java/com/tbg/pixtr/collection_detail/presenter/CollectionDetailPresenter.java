@@ -33,11 +33,13 @@ public class CollectionDetailPresenter extends BasePresenter {
         view.setupView();
     }
 
-    public void requestCollectionDetails() {
-        view.showProgress();
+    public void requestCollectionDetails(int page, boolean progressFlag) {
+        if (progressFlag) {
+            view.showProgress();
+        }
         Map<String, String> params = new HashMap<>();
         params.put(AppConstants.CLIENT_ID_KEY, AppConstants.CLIENT_ID);
-        params.put(AppConstants.PAGE_KEY, "1");
+        params.put(AppConstants.PAGE_KEY, "" + page);
         addDisponsable(networkManager.getCollectionDetails(view.getId(), params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

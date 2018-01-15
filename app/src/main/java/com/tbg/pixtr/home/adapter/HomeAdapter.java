@@ -12,10 +12,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.tbg.pixtr.R;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.home.adapter.viewholder.HeadViewHolder;
 import com.tbg.pixtr.home.adapter.viewholder.ItemViewHolder;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
 import com.tbg.pixtr.utils.misc.AppConstants;
+import com.tbg.pixtr.utils.misc.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<CollectionsPojo> collections = new ArrayList<>();
     private Context context;
     private ActivityInteractions interactions;
-    private String[] backgroundColor = {"#E0E0E0", "#F5F5F5", "#FAFAFA", "#FFFFFF"};
+    private SharedPreferencesUtil preferencesUtil;
+    private AppUtils appUtils;
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context, SharedPreferencesUtil preferencesUtil, AppUtils appUtils) {
         this.context = context;
+        this.preferencesUtil = preferencesUtil;
+        this.appUtils = appUtils;
     }
 
     @Override
@@ -66,7 +71,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             Glide.with(context)
                     .setDefaultRequestOptions(requestOptions)
-                    .load(collections.get(position).coverPhoto.urls.regular)
+                    .load(appUtils.retrieveLoadURLConfig(collections.get(position).coverPhoto.urls, preferencesUtil, AppConstants.QUALITY_FLAGS.LOAD))
                     .transition(drawableTransitionOptions)
                     .into(itemViewHolder.collectionImage);
 

@@ -10,7 +10,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.collection_detail.adapter.viewholder.CollectionViewholder;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
+import com.tbg.pixtr.utils.misc.AppConstants;
+import com.tbg.pixtr.utils.misc.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
     private Context context;
     private ArrayList<CollectionDetailsPojo> data = new ArrayList<>();
     private OnClickListener clickListener;
+    private AppUtils appUtils;
+    private SharedPreferencesUtil preferencesUtil;
 
-    public CollectionAdapter(Context context) {
+    public CollectionAdapter(Context context, SharedPreferencesUtil preferencesUtil, AppUtils appUtils) {
         this.context = context;
+        this.preferencesUtil = preferencesUtil;
+        this.appUtils = appUtils;
     }
 
     @Override
@@ -42,7 +49,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
         drawableTransitionOptions.crossFade();
 
         Glide.with(context)
-                .load(data.get(position).urls.regular)
+                .load(appUtils.retrieveLoadURLConfig(data.get(position).urls, preferencesUtil, AppConstants.QUALITY_FLAGS.LOAD))
                 .transition(drawableTransitionOptions)
                 .into(holder.imagePreview);
 

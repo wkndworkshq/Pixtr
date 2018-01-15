@@ -2,6 +2,7 @@ package com.tbg.pixtr.settings.views;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.tbg.pixtr.R;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
+import com.tbg.pixtr.home.view.HomeActivity;
 import com.tbg.pixtr.settings.adapter.SettingsAdapter;
 import com.tbg.pixtr.utils.misc.AppConstants;
 import com.tbg.pixtr.utils.misc.AppUtils;
@@ -31,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     private SettingsAdapter adapter;
 
     private AppUtils appUtils;
+    private SharedPreferencesUtil preferencesUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,8 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
 
         appUtils = new AppUtils();
         adapter = new SettingsAdapter();
+        preferencesUtil = new SharedPreferencesUtil(this);
+
         adapter.updateData(appUtils.getSettingsList());
         adapter.setOnClickListener(this);
         settings.setAdapter(adapter);
@@ -59,12 +66,20 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     @Override
     public void OnClick(int position) {
         if (position == 1) {
-            Glide.get(this).clearDiskCache();
-            Snackbar.make(settings, "Disk cache has been cleared", Snackbar.LENGTH_SHORT).show();
+            AsyncTask.execute(() -> {
+                Glide.get(SettingsActivity.this).clearDiskCache();
+                Snackbar.make(settings, "Cache has been cleared", Snackbar.LENGTH_SHORT).show();
+            });
         } else if (position == 2) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://unsplash.com" + AppConstants.UTM_PARAMS));
             startActivity(intent);
+        } else if (position == 4) {
+            displayQualityDialog(AppConstants.QUALITY_FLAGS.LOAD);
+        } else if (position == 5) {
+            displayQualityDialog(AppConstants.QUALITY_FLAGS.DOWNLOAD);
+        } else if (position == 6) {
+            displayQualityDialog(AppConstants.QUALITY_FLAGS.WALLPAPER);
         }
     }
 
@@ -72,7 +87,46 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            onBackPressed();
         }
         return true;
+    }
+
+
+    /**
+     * Dialog
+     *
+     * @param flags
+     */
+    public void displayQualityDialog(AppConstants.QUALITY_FLAGS flags) {
+        int position = -1;
+        String headerName = "Quality";
+        if (flags == AppConstants.QUALITY_FLAGS.WALLPAPER) {
+            position = preferencesUtil.getWallpaperQuality();
+            headerName = "Wallpaper Quality";
+        } else if (flags == AppConstants.QUALITY_FLAGS.LOAD) {
+            position = preferencesUtil.getLoadQuality();
+            headerName = "Load Quality";
+        } else if (flags == AppConstants.QUALITY_FLAGS.DOWNLOAD) {
+            position = preferencesUtil.getDownloadQuality();
+            headerName = "Download Quality";
+        }
+        new MaterialDialog.Builder(this)
+                .title(headerName)
+                .items(R.array.quality_types)
+                .itemsCallbackSingleChoice(position, (materialDialog, view, selectedPosition, charSequence) -> {
+                    appUtils.editQualityData(selectedPosition, flags, preferencesUtil);
+                    return true;
+                })
+                .show();
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }

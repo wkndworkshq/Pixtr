@@ -1,12 +1,15 @@
 package com.tbg.pixtr.home.view;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.tbg.pixtr.home.presenter.HomePresenter;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
 import com.tbg.pixtr.settings.views.SettingsActivity;
 import com.tbg.pixtr.utils.base.BaseActivity;
+import com.tbg.pixtr.utils.custom.CustomTypefaceSpan;
 import com.tbg.pixtr.utils.misc.AppConstants;
 import com.tbg.pixtr.utils.misc.HomeItemDecorator;
 
@@ -57,6 +61,10 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    private int page = 1;
+
+    private boolean loading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_home);
@@ -77,7 +85,8 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
 
     @Override
     public void onNetworkError(Throwable throwable) {
-
+        loading = false;
+        page = (page == 0 ? 0 : page - 1);
     }
 
     @Override
@@ -94,6 +103,7 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     @Override
     public void deliverData(List<CollectionsPojo> data) {
         adapter.updateData(data);
+        loading = false;
     }
 
     @Override
@@ -103,12 +113,14 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
 
     /**
-     * Recyclerview scroll helper method.
+     * Scroll listener for the recyclerview.
      */
     private RecyclerView.OnScrollListener toolbarElevation = new RecyclerView.OnScrollListener() {
         @Override
@@ -121,6 +133,19 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
             } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING
                     && toolbar.getTranslationZ() != -1f) {
                 toolbar.setTranslationZ(-1f);
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            int totalItemCount = layoutManager.getItemCount();
+            int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            boolean endReachedFlag = lastVisibleItem + 5 >= totalItemCount;
+            if (totalItemCount > 0 && endReachedFlag && !loading) {
+                loading = true;
+                page = page + 1;
+                presenter.retrieveCollections(page, false);
             }
         }
     };
@@ -149,16 +174,31 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
+        Typeface menuTypeface = ResourcesCompat.getFont(this, R.font.montserrat);
+
+        SpannableString aboutUsString = new SpannableString(getString(R.string.menu_item_about));
+        aboutUsString.setSpan(new CustomTypefaceSpan(AppConstants.CUSTOM_FONT_FAMILY, menuTypeface), 0, aboutUsString.length(), 0);
+
+        SpannableString settingsString = new SpannableString(getString(R.string.menu_item_settings));
+        settingsString.setSpan(new CustomTypefaceSpan(AppConstants.CUSTOM_FONT_FAMILY, menuTypeface), 0, settingsString.length(), 0);
+
+        MenuItem about_menu_item = menu.findItem(R.id.menu_about_tbg);
+        MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
+
+        about_menu_item.setTitle(aboutUsString);
+        settingsMenuItem.setTitle(settingsString);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_about_tbg) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://www.tbg.co"));
+            intent.setData(Uri.parse("https://www.tbglabs.com"));
             startActivity(intent);
         } else if (item.getItemId() == R.id.menu_settings) {
+            finish();
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }

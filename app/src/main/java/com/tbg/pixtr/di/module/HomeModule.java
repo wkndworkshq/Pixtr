@@ -3,6 +3,7 @@ package com.tbg.pixtr.di.module;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.di.scope.ActivityScope;
 import com.tbg.pixtr.home.adapter.HomeAdapter;
 import com.tbg.pixtr.home.presenter.HomePresenter;
@@ -52,7 +53,7 @@ public class HomeModule {
 
     @ActivityScope
     @Provides
-    public HomeAdapter providesAdapter() {
-        return new HomeAdapter(activity);
+    public HomeAdapter providesAdapter(SharedPreferencesUtil preferencesUtil, AppUtils appUtils) {
+        return new HomeAdapter(activity, preferencesUtil, appUtils);
     }
 }

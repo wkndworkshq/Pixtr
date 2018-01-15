@@ -28,17 +28,20 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.tbg.pixtr.R;
+import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.detail.presenter.DetailPresenter;
 import com.tbg.pixtr.di.injector.Injector;
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
 import com.tbg.pixtr.utils.base.BaseActivity;
 import com.tbg.pixtr.utils.custom.CustomFAB;
 import com.tbg.pixtr.utils.misc.AppConstants;
+import com.tbg.pixtr.utils.misc.AppUtils;
 
 import javax.inject.Inject;
 
@@ -50,6 +53,12 @@ public class DetailActivity extends BaseActivity implements DetailView {
 
     @Inject
     DetailPresenter presenter;
+
+    @Inject
+    AppUtils appUtils;
+
+    @Inject
+    SharedPreferencesUtil preferencesUtil;
 
     private CollectionDetailsPojo data;
 
@@ -82,6 +91,7 @@ public class DetailActivity extends BaseActivity implements DetailView {
 
     @BindView(R.id.tintScrim)
     View tintScrim;
+
 
     MaterialSheetFab materialSheetFab;
 
@@ -130,8 +140,13 @@ public class DetailActivity extends BaseActivity implements DetailView {
         locationLbl.setText(data.user.location == null ? "Not Available" : data.user.location);
         artistLbl.setText("By " + data.user.name);
         likeLbl.setText(data.likes + " Likes");
+
+        DrawableTransitionOptions drawableTransitionOptions = new DrawableTransitionOptions();
+        drawableTransitionOptions.crossFade();
+
         Glide.with(this)
                 .load(data.urls.full)
+                .transition(drawableTransitionOptions)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -166,7 +181,7 @@ public class DetailActivity extends BaseActivity implements DetailView {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstants.REQUEST_DOWNLOAD_PERMISSION);
             } else {
-                downloadData(data.urls.raw);
+                downloadData(appUtils.retrieveLoadURLConfig(data.urls, preferencesUtil, AppConstants.QUALITY_FLAGS.DOWNLOAD));
             }
         } else if (view.getId() == R.id.setWallpaperLbl || view.getId() == R.id.setWallpaperImage) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -193,7 +208,7 @@ public class DetailActivity extends BaseActivity implements DetailView {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == AppConstants.REQUEST_DOWNLOAD_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            downloadData(data.urls.raw);
+            downloadData(appUtils.retrieveLoadURLConfig(data.urls, preferencesUtil, AppConstants.QUALITY_FLAGS.DOWNLOAD));
         } else if (requestCode == AppConstants.REQUEST_SET_WALLPAPAER_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             setWallpaperLogic();
         }
@@ -227,7 +242,8 @@ public class DetailActivity extends BaseActivity implements DetailView {
      * Code to set wallpaper.
      */
     public void setWallpaperLogic() {
-        DownloadManager.Request downLoadRequest = new DownloadManager.Request(Uri.parse(data.urls.full));
+        DownloadManager.Request downLoadRequest = new DownloadManager.Request(Uri.
+                parse(appUtils.retrieveLoadURLConfig(data.urls, preferencesUtil, AppConstants.QUALITY_FLAGS.WALLPAPER)));
         downLoadRequest.setDestinationInExternalPublicDir("/Pixtr", data.id + ".jpg");
         downLoadRequest.setVisibleInDownloadsUi(false);
         downLoadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
