@@ -53,4 +53,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:27.0.2'
     compile 'com.gordonwong:material-sheet-fab:1.2.1'
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
+    compile 'com.evernote:android-job:1.2.0'
 }

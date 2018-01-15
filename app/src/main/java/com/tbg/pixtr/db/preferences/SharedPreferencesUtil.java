@@ -44,7 +44,7 @@ public class SharedPreferencesUtil {
      * @return
      */
     public String getAutoUpdateId() {
-        return sharedPreferences.getString(AppConstants.SHARED_PREF_AUTO_UPDATE_ID, "");
+        return sharedPreferences.getString(AppConstants.SHARED_PREF_AUTO_UPDATE_ID, "empty");
     }
 
 
