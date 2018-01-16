@@ -53,6 +53,7 @@ public class AppController extends Application {
         }
 
         new JobRequest.Builder(WallpaperJob.TAG)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .setPeriodic(TimeUnit.HOURS.toMillis(24), TimeUnit.HOURS.toMillis(1))
                 .build()
                 .schedule();
