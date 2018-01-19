@@ -6,6 +6,16 @@ apply plugin: 'me.tatarka.retrolambda'
 android {
     compileSdkVersion 27
     buildToolsVersion "26.0.2"
+
+    signingConfigs {
+        Key {
+            keyAlias 'VR'
+            keyPassword 'ksaksa30'
+            storeFile file('/Users/kausthubhadhikari/Documents/VR/VRKey.jks')
+            storePassword 'ksaksa30'
+        }
+    }
+
     defaultConfig {
         applicationId "com.tbg.pixtr"
         minSdkVersion 21
@@ -20,8 +30,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.Key
         }
     }
 }
@@ -54,4 +65,5 @@ dependencies {
     compile 'com.gordonwong:material-sheet-fab:1.2.1'
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
     compile 'com.evernote:android-job:1.2.0'
+    compile 'com.mindorks.android:prdownloader:0.2.0'
 }

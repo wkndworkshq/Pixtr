@@ -3,12 +3,12 @@ package com.tbg.pixtr.model.api;
 
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
+import com.tbg.pixtr.model.pojo.job.RandomPojo;
 
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
@@ -26,6 +26,6 @@ public interface NetworkingInterface {
     Observable<List<CollectionDetailsPojo>> getCollectionPhotos(@Path("collection_id") String collectionId, @QueryMap Map<String, String> options);
 
     @GET("/photos/random")
-    Call<CollectionDetailsPojo> getRandomImage(@QueryMap Map<String, String> options);
+    Observable<RandomPojo> getRandomImage(@QueryMap Map<String, String> options);
 
 }

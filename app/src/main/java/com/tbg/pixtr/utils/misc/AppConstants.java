@@ -34,6 +34,9 @@ public class AppConstants {
     public static final String SHARED_PREF_LOAD = "LOAD_QUALITY";
     public static final String SHARED_PREF_WALLPAPER = "WALLPAPER_QUALITY";
     public static final String SHARED_PREF_DOWNLOAD = "DOWNLOAD_QUALITY";
+    public static final int SPLASH_SCREEN_TIME = 2900;
+    public static final int JOB_FLEX_HOURS = 1;
+    public static final int JOB_PERIODIC_HOURS = 24;
 
     public enum QUALITY_FLAGS {
         WALLPAPER,
