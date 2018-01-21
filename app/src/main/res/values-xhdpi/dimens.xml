@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="collection_name">24sp</dimen>
+    <dimen name="no_photos">16sp</dimen>
+    <dimen name="collection_height">300dp</dimen>
+</resources>

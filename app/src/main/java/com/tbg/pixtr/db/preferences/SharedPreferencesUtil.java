@@ -28,6 +28,14 @@ public class SharedPreferencesUtil {
 
 
     /**
+     * Clear the AutoUpdateData.
+     */
+    public void clearAutoUpdateData() {
+        sharedPreferences.edit().remove(AppConstants.SHARED_PREF_AUTO_UPDATE_ID).commit();
+    }
+
+
+    /**
      * Save the collection Id for auto update.
      *
      * @param collectionId
@@ -107,5 +115,24 @@ public class SharedPreferencesUtil {
      */
     public int getDownloadQuality() {
         return sharedPreferences.getInt(AppConstants.SHARED_PREF_DOWNLOAD, 0);
+    }
+
+
+    /**
+     * Set Tutorial launch flag.
+     */
+    public void setTutorialLoaded() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(AppConstants.SHARED_PREF_TUTORIAL, true).commit();
+    }
+
+
+    /**
+     * Retrieve the tutorial flag.
+     *
+     * @return
+     */
+    public boolean getTutorialLoaded() {
+        return sharedPreferences.getBoolean(AppConstants.SHARED_PREF_TUTORIAL, false);
     }
 }

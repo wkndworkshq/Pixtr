@@ -3,6 +3,7 @@ package com.tbg.pixtr.di.module;
 import com.tbg.pixtr.detail.presenter.DetailPresenter;
 import com.tbg.pixtr.detail.view.DetailActivity;
 import com.tbg.pixtr.di.scope.ActivityScope;
+import com.tbg.pixtr.model.manager.NetworkManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,8 +23,8 @@ public class DetailModule {
 
     @ActivityScope
     @Provides
-    public DetailPresenter providesPresenter() {
-        return new DetailPresenter(activity);
+    public DetailPresenter providesPresenter(NetworkManager networkManager) {
+        return new DetailPresenter(activity, networkManager);
     }
 
 

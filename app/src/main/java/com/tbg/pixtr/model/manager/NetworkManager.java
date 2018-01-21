@@ -3,6 +3,8 @@ package com.tbg.pixtr.model.manager;
 import com.tbg.pixtr.model.api.NetworkingInterface;
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
+import com.tbg.pixtr.model.pojo.download_update.DownloadUpdatePojo;
+import com.tbg.pixtr.utils.misc.AppConstants;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,19 @@ public class NetworkManager {
      */
     public Observable<List<CollectionDetailsPojo>> getCollectionDetails(String pathId, @QueryMap Map<String, String> options) {
         return networkInterface.getCollectionPhotos(pathId, options)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * Update the Image downloaded / set Wallpaper.
+     *
+     * @param id
+     * @return
+     */
+    public Observable<DownloadUpdatePojo> updateDownloadStart(String id) {
+        return networkInterface.updateDownloadStart(id, AppConstants.CLIENT_ID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

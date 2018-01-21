@@ -8,13 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.tbg.pixtr.collection_detail.view.CollectionDetailActivity">
 
-    <!-- <ImageView
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:scaleType="centerCrop"
-         android:src="@drawable/collection_back"
-         android:tint="#45000000" /> -->
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,8 +23,6 @@
             android:text="Title"
             android:textColor="@color/toolbarTextColor"
             android:textSize="28sp"
-            app:autoSizeMaxTextSize="28sp"
-            app:autoSizeMinTextSize="22sp"
             app:fontFamily="@font/montserrat_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,8 +36,6 @@
             android:text="145 Photos"
             android:textColor="@color/toolbarSecondaryTextColor"
             android:textSize="20sp"
-            app:autoSizeMaxTextSize="20sp"
-            app:autoSizeMinTextSize="14sp"
             app:fontFamily="@font/montserrat"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />

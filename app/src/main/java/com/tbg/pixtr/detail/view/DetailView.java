@@ -10,4 +10,6 @@ public interface DetailView extends BaseView {
 
     void setupView();
 
+    void onError(Throwable throwable);
+
 }

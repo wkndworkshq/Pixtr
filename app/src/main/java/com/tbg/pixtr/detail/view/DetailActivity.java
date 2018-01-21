@@ -92,7 +92,6 @@ public class DetailActivity extends BaseActivity implements DetailView {
     @BindView(R.id.tintScrim)
     View tintScrim;
 
-
     MaterialSheetFab materialSheetFab;
 
     private int page = 1;
@@ -163,6 +162,11 @@ public class DetailActivity extends BaseActivity implements DetailView {
                 .into(imageView);
     }
 
+    @Override
+    public void onError(Throwable throwable) {
+
+    }
+
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
         tintScrim.setVisibility(View.VISIBLE);
@@ -183,12 +187,14 @@ public class DetailActivity extends BaseActivity implements DetailView {
             } else {
                 downloadData(appUtils.retrieveLoadURLConfig(data.urls, preferencesUtil, AppConstants.QUALITY_FLAGS.DOWNLOAD));
             }
+            presenter.updateDownloadStart(data.id);
         } else if (view.getId() == R.id.setWallpaperLbl || view.getId() == R.id.setWallpaperImage) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstants.REQUEST_SET_WALLPAPAER_PERMISSION);
             } else {
                 setWallpaperLogic();
             }
+            presenter.updateDownloadStart(data.id);
         } else if (view.getId() == R.id.viewWebsiteLbl || view.getId() == R.id.viewWebsiteImage) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.links.html + AppConstants.UTM_PARAMS));
             startActivity(intent);

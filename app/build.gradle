@@ -31,6 +31,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.Key
         }
@@ -66,4 +67,5 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
     compile 'com.evernote:android-job:1.2.0'
     compile 'com.mindorks.android:prdownloader:0.2.0'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
 }

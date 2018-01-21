@@ -21,6 +21,8 @@ import com.downloader.PRDownloader;
 import com.google.gson.Gson;
 import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.model.api.NetworkingInterface;
+import com.tbg.pixtr.model.manager.NetworkManager;
+import com.tbg.pixtr.model.pojo.download_update.DownloadUpdatePojo;
 import com.tbg.pixtr.model.pojo.job.RandomPojo;
 import com.tbg.pixtr.utils.misc.AppConstants;
 import com.tbg.pixtr.utils.misc.AppUtils;
@@ -51,6 +53,8 @@ public class WallpaperProcessService extends IntentService {
     private String collectionId;
     private AppUtils appUtils;
     private SharedPreferencesUtil sharedPreferencesUtil;
+    private NetworkManager networkManager;
+    private WallpaperManager wallpaperManager;
 
 
     /**
@@ -62,26 +66,14 @@ public class WallpaperProcessService extends IntentService {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            String CHANNEL_ID = "Pixtr";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Pixtr Wallpaper",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("Pixtr")
-                    .setContentText("Updating Wallpaper").build();
-
-            startForeground(1, notification);
-        }
+        startForegroundService();
         return super.onStartCommand(intent, flags, startId);
     }
 
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        startForegroundService();
         compositeDisposable = new CompositeDisposable();
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -96,16 +88,19 @@ public class WallpaperProcessService extends IntentService {
                 .build();
 
         networkInterface = retrofit.create(NetworkingInterface.class);
+        networkManager = new NetworkManager(networkInterface);
 
         sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
         appUtils = new AppUtils();
 
         collectionId = sharedPreferencesUtil.getAutoUpdateId();
+        wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 
         Map<String, String> params = new HashMap<>();
         params.put(AppConstants.CLIENT_ID_KEY, AppConstants.CLIENT_ID);
         params.put(AppConstants.RANDOM_COLLECTION_ID_KEY, collectionId);
-
+        params.put(AppConstants.RANDOM_HEIGHT_KEY, "" + wallpaperManager.getDesiredMinimumHeight());
+        params.put(AppConstants.RANDOM_WIDTH_KEY, "" + wallpaperManager.getDesiredMinimumWidth());
         addDisposable(networkInterface.getRandomImage(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::dataReceived, this::onError));
     }
 
@@ -117,6 +112,7 @@ public class WallpaperProcessService extends IntentService {
      */
     public void dataReceived(RandomPojo data) {
         setWallpaperLogic(data);
+        updateDownloadStart(data.id);
     }
 
 
@@ -140,14 +136,13 @@ public class WallpaperProcessService extends IntentService {
         if (!pixtrDir.exists()) {
             pixtrDir.mkdir();
         }
-        PRDownloader.download(appUtils.retrieveLoadURLConfig(data.urls, sharedPreferencesUtil, AppConstants.QUALITY_FLAGS.WALLPAPER), pixtrDir.getAbsolutePath(), data.id + ".jpg")
+        PRDownloader.download(data.urls.custom, pixtrDir.getAbsolutePath(), data.id + ".jpg")
                 .build()
                 .start(new OnDownloadListener() {
                     @Override
                     public void onDownloadComplete() {
                         try {
                             Bitmap bitmap = BitmapFactory.decodeFile(pixtrDir.getAbsolutePath() + "/" + data.id + ".jpg");
-                            WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
                             wallpaperManager.setBitmap(bitmap);
                         } catch (IOException exception) {
 
@@ -163,6 +158,26 @@ public class WallpaperProcessService extends IntentService {
 
 
     /**
+     * Download stats call for unsplash.
+     *
+     * @param id
+     */
+    public void updateDownloadStart(String id) {
+        addDisposable(networkManager.updateDownloadStart(id).subscribe(this::onDeliverData, this::onError));
+    }
+
+
+    /**
+     * Download success analytics.
+     *
+     * @param data
+     */
+    public void onDeliverData(DownloadUpdatePojo data) {
+        Log.i("Download status", "" + data);
+    }
+
+
+    /**
      * Add disposable.
      *
      * @param disposable
@@ -171,5 +186,25 @@ public class WallpaperProcessService extends IntentService {
         compositeDisposable.add(disposable);
     }
 
+
+    /**
+     * Start foreground service.
+     */
+    public void startForegroundService() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            String CHANNEL_ID = "Pixtr";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Pixtr Wallpaper",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("Pixtr")
+                    .setContentText("Updating Wallpaper").build();
+
+            startForeground(1, notification);
+        }
+    }
 
 }

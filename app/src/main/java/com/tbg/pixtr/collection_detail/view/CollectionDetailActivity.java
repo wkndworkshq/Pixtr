@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.gson.Gson;
 import com.tbg.pixtr.R;
 import com.tbg.pixtr.collection_detail.adapter.CollectionAdapter;
@@ -22,6 +26,7 @@ import com.tbg.pixtr.collection_detail.presenter.CollectionDetailPresenter;
 import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.detail.view.DetailActivity;
 import com.tbg.pixtr.di.injector.Injector;
+import com.tbg.pixtr.jobs.WallpaperJob;
 import com.tbg.pixtr.model.pojo.collection_images.CollectionDetailsPojo;
 import com.tbg.pixtr.model.pojo.collections.CollectionsPojo;
 import com.tbg.pixtr.utils.base.BaseActivity;
@@ -30,6 +35,7 @@ import com.tbg.pixtr.utils.misc.AppConstants;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -138,6 +144,9 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
         if (listBottomHolder.getVisibility() == View.GONE) {
             listBottomHolder.setVisibility(View.VISIBLE);
         }
+        if (!preferencesUtil.getTutorialLoaded()) {
+            autoUpdateTutorial();
+        }
     }
 
     @Override
@@ -186,20 +195,20 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.collection_detail_menu, menu);
         MenuItem autoUpdate = menu.findItem(R.id.follow_menu_item);
-
         autoUpdate.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.follow_menu_item) {
+                clearScheduledJobs();
                 if (!preferencesUtil.getAutoUpdateId().equals("" + data.id)) {
-                    preferencesUtil.clearData();
+                    preferencesUtil.clearAutoUpdateData();
                     preferencesUtil.saveAutoUpdateId(data.id);
+                    scheduleUpdateJob();
                 } else {
-                    preferencesUtil.clearData();
+                    preferencesUtil.clearAutoUpdateData();
                 }
                 autoUpdate.setIcon(preferencesUtil.getAutoUpdateId().equals("" + data.id) ? R.drawable.ic_followed : R.drawable.ic_follow_collection);
             }
             return true;
         });
-
         autoUpdate.setIcon(preferencesUtil.getAutoUpdateId().equals("" + data.id) ? R.drawable.ic_followed : R.drawable.ic_follow_collection);
         return super.onCreateOptionsMenu(menu);
     }
@@ -222,4 +231,59 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
         intent.putExtra(AppConstants.INTENT_DETAILS_DATA, new Gson().toJson(adapter.getData(position)));
         startActivity(intent);
     }
+
+
+    /**
+     * Display the tutorial logic code.
+     */
+    public void autoUpdateTutorial() {
+        TapTargetView.showFor(this,
+                TapTarget.forToolbarMenuItem(toolbar, R.id.follow_menu_item, "Auto Update", "Enable auto-update to change wallpapers everyday.")
+                        .outerCircleColor(R.color.colorAccent)
+                        .outerCircleAlpha(0.96f)
+                        .targetCircleColor(R.color.colorPrimary)
+                        .titleTextSize(25)
+                        .titleTextColor(R.color.colorPrimaryDark)
+                        .descriptionTextSize(15)
+                        .descriptionTextColor(R.color.detailSecondaryTextColor)
+                        .textColor(R.color.colorPrimary)
+                        .textTypeface(ResourcesCompat.getFont(this, R.font.montserrat_bold))
+                        .dimColor(R.color.itemOverlay)
+                        .drawShadow(true)
+                        .transparentTarget(true)
+                        .cancelable(false)
+                        .tintTarget(true)
+                        .transparentTarget(false)
+                        .targetRadius(60),
+                new TapTargetView.Listener() {
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);
+                        preferencesUtil.setTutorialLoaded();
+                    }
+                });
+    }
+
+
+    /**
+     * Schedule the job.
+     */
+    public void scheduleUpdateJob() {
+        new JobRequest.Builder(WallpaperJob.TAG)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setPeriodic(TimeUnit.HOURS.toMillis(AppConstants.JOB_PERIODIC_HOURS), TimeUnit.HOURS.toMillis(AppConstants.JOB_FLEX_HOURS))
+                .build()
+                .schedule();
+    }
+
+
+    /**
+     * Clear the Wallpaper jobs.
+     */
+    public void clearScheduledJobs() {
+        if (!JobManager.instance().getAllJobRequestsForTag(WallpaperJob.TAG).isEmpty()) {
+            JobManager.instance().cancelAllForTag(WallpaperJob.TAG);
+        }
+    }
+
 }

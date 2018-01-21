@@ -3,6 +3,7 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorPrimary">#303030</color>
     <color name="colorAccent">#00BFA5</color>
+    <color name="secondaryAccentColor">#64FFDA</color>
     <color name="cardColor">#424242</color>
     <color name="currentItemOverlay">@android:color/transparent</color>
     <color name="itemOverlay">#cc000000</color>
