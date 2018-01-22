@@ -53,4 +53,11 @@ public class CollectionDetailsPojo {
     @Expose
     public Links__ links;
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!= null && obj instanceof CollectionDetailsPojo){
+            return id.equalsIgnoreCase(((CollectionDetailsPojo) obj).id);
+        }
+        return false;
+    }
 }

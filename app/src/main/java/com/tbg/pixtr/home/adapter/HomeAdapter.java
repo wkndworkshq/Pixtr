@@ -88,8 +88,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updateData(List<CollectionsPojo> data) {
-        collections.addAll(data);
-        notifyDataSetChanged();
+        if (!collections.containsAll(data)) {
+            collections.addAll(data);
+            notifyDataSetChanged();
+        }
     }
 
     @Override

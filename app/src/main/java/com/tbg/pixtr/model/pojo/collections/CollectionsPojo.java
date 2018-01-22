@@ -51,4 +51,11 @@ public class CollectionsPojo {
 
     public int type = 1;
 
+    @Override
+    public boolean equals(Object object) {
+        if (object != null && object instanceof CollectionsPojo) {
+            return this.id == ((CollectionsPojo) object).id;
+        }
+        return false;
+    }
 }

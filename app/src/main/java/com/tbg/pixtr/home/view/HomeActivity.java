@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +35,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.ActivityInteractions {
 
@@ -61,6 +63,9 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.error_placeholder)
+    ConstraintLayout errorPlaceholder;
+
     private int page = 1;
 
     private boolean loading = false;
@@ -87,6 +92,7 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     public void onNetworkError(Throwable throwable) {
         loading = false;
         page = (page == 0 ? 0 : page - 1);
+        errorPlaceholder.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -102,6 +108,9 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
 
     @Override
     public void deliverData(List<CollectionsPojo> data) {
+        if (errorPlaceholder.getVisibility() == View.VISIBLE) {
+            errorPlaceholder.setVisibility(View.GONE);
+        }
         adapter.updateData(data);
         loading = false;
     }
@@ -203,5 +212,15 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
             startActivity(intent);
         }
         return true;
+    }
+
+    @OnClick({R.id.reloadData})
+    public void onClick(View view) {
+        if (view.getId() == R.id.reloadData) {
+            if (!loading) {
+                loading = true;
+                presenter.retrieveCollections(page, true);
+            }
+        }
     }
 }

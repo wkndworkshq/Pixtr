@@ -48,6 +48,9 @@
             android:name=".jobs.WallpaperProcessService"
             android:exported="false" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9c5b7a64466da15009d498cf4bf77ee63557b72b" />
     </application>
 
 </manifest>

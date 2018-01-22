@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.AppCompatTextView;
@@ -41,6 +42,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CollectionDetailActivity extends BaseActivity implements CollectionDetailView, DiscreteScrollView.ScrollListener<CollectionViewholder>, DiscreteScrollView.OnItemChangedListener<CollectionViewholder>, CollectionAdapter.OnClickListener {
 
@@ -66,6 +68,9 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
 
     @BindView(R.id.placeholder_text)
     AppCompatTextView listBottomHolder;
+
+    @BindView(R.id.error_placeholder)
+    ConstraintLayout errorPlaceholder;
 
     @Inject
     CollectionAdapter adapter;
@@ -113,6 +118,7 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
     public void onNetworkError(Throwable throwable) {
         loading = false;
         page = (page == 0 ? 0 : page - 1);
+        errorPlaceholder.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -139,6 +145,9 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
 
     @Override
     public void onDeliverData(List<CollectionDetailsPojo> data) {
+        if (errorPlaceholder.getVisibility() == View.VISIBLE) {
+            errorPlaceholder.setVisibility(View.GONE);
+        }
         adapter.updateData(data);
         loading = false;
         if (listBottomHolder.getVisibility() == View.GONE) {
@@ -283,6 +292,16 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
     public void clearScheduledJobs() {
         if (!JobManager.instance().getAllJobRequestsForTag(WallpaperJob.TAG).isEmpty()) {
             JobManager.instance().cancelAllForTag(WallpaperJob.TAG);
+        }
+    }
+
+    @OnClick({R.id.reloadData})
+    public void onClick(View view) {
+        if (view.getId() == R.id.reloadData) {
+            if (!loading) {
+                loading = true;
+                presenter.requestCollectionDetails(page, true);
+            }
         }
     }
 
