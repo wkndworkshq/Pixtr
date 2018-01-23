@@ -92,7 +92,9 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
     public void onNetworkError(Throwable throwable) {
         loading = false;
         page = (page == 0 ? 0 : page - 1);
-        errorPlaceholder.setVisibility(View.VISIBLE);
+        if (adapter.getItemCount() == 0) {
+            errorPlaceholder.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -223,4 +225,19 @@ public class HomeActivity extends BaseActivity implements HomeView, HomeAdapter.
             }
         }
     }
+
+    /**
+     * TODO Need to handle config changes and resizing.
+     *
+     * @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
+     @Override protected void onSaveInstanceState(Bundle outState) {
+     super.onSaveInstanceState(outState);
+
+     }**/
 }
+
+
