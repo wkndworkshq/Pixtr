@@ -6,7 +6,7 @@ package com.tbg.pixtr.utils.misc;
 
 public class AppConstants {
     public static final String BASE_URL = "https://api.unsplash.com";
-    public static final String CLIENT_ID = "c275aacdd8185fc12e70b2aac0a341ed39b23333aa9768d0009cb69b5204e813";
+    public static final String CLIENT_ID = "356aadba611818f7901af19e6a044f414474fc7dd3ea2208f40c083b62e4ece3";
     public static final String CLIENT_ID_KEY = "client_id";
     public static final String PAGE_KEY = "page";
     public static final String RANDOM_COLLECTION_ID_KEY = "collections";

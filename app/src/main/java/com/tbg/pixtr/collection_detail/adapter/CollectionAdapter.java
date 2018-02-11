@@ -67,7 +67,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionViewholder
     }
 
     public void updateData(List<CollectionDetailsPojo> data) {
-        if (this.data.containsAll(data)) {
+        if (!this.data.containsAll(data)) {
             this.data.addAll(data);
             notifyDataSetChanged();
         }
