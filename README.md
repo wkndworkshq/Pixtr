@@ -1,6 +1,6 @@
 # Pixtr for Android 
 
-[![Coverage Status](https://coveralls.io/repos/github/tbglabs/Pixtr/badge.svg?branch=master)](https://coveralls.io/github/tbglabs/Pixtr?branch=master)
+[![Download it from Play Store](https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg)](https://play.google.com/store/apps/details?id=com.tbg.pixtr)
 
 The official Codebase of Pixtr's android app. 
 
