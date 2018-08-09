@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     app:behavior_peekHeight="56dp"
+    android:id="@+id/bottomSheet_layout"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
 
