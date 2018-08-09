@@ -319,6 +319,7 @@ public class DetailActivity extends BaseActivity implements DetailView {
 
     /**
      * Download Manager instance helper.
+     * TODO Fixed.
      *
      * @return
      */
