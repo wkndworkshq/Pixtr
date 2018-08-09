@@ -12,4 +12,6 @@ public interface DetailView extends BaseView {
 
     void onError(Throwable throwable);
 
+    void hideProgressBar();
+
 }

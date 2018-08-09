@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -169,6 +167,11 @@ public class DetailActivity extends BaseActivity implements DetailView {
 
     }
 
+    @Override
+    public void hideProgressBar() {
+        hideProgress();
+    }
+
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
         tintScrim.setVisibility(View.VISIBLE);
@@ -298,13 +301,7 @@ public class DetailActivity extends BaseActivity implements DetailView {
                                 wallpaperIntent.putExtra(AppConstants.MIME_TYPE, AppConstants.DATA_TYPE);
                                 startActivityForResult(wallpaperIntent, AppConstants.WALLPAPER_INTENT_REQUEST_CODE);
                             } catch (Exception e) {
-                                try {
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(DetailActivity.this.getContentResolver(), imageUri);
-                                    WallpaperManager.getInstance(DetailActivity.this).setBitmap(bitmap);
-                                    hideProgress();
-                                } catch (Exception exceptionn) {
-                                    hideProgress();
-                                }
+                                presenter.setWallpaperLogic(DetailActivity.this, imageUri);
                             }
                             break;
 
@@ -319,7 +316,6 @@ public class DetailActivity extends BaseActivity implements DetailView {
 
     /**
      * Download Manager instance helper.
-     * TODO Fixed  askjxs.
      *
      * @return
      */
