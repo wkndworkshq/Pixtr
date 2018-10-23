@@ -137,8 +137,8 @@ public class DetailActivity extends BaseActivity implements DetailView {
         getWindow().setStatusBarColor(Color.parseColor("#80000000"));
         materialSheetFab = new MaterialSheetFab<>(customFAB, fab_sheet, overlay, ContextCompat.getColor(this, R.color.colorPrimary), ContextCompat.getColor(this, R.color.colorAccent));
         locationLbl.setText(data.user.location == null ? "Not Available" : data.user.location);
-        artistLbl.setText("By " + data.user.name);
-        likeLbl.setText(data.likes + " Likes");
+        artistLbl.setText(getString(R.string.by_person, data.user.name));
+        likeLbl.setText(getResources().getQuantityString(R.plurals.likes, data.likes, data.likes));
 
         DrawableTransitionOptions drawableTransitionOptions = new DrawableTransitionOptions();
         drawableTransitionOptions.crossFade();

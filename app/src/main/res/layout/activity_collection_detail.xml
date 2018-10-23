@@ -11,7 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="76dp">
 
         <android.support.v7.widget.AppCompatTextView
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginTop="8dp"
-            android:text="Title"
+            android:text="@string/title"
             android:textColor="@color/toolbarTextColor"
             android:textSize="28sp"
             app:fontFamily="@font/montserrat_bold"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/name"
             android:layout_gravity="top"
-            android:text="145 Photos"
+            tools:text="145 Photos"
             android:textColor="@color/toolbarSecondaryTextColor"
             android:textSize="20sp"
             app:fontFamily="@font/montserrat"
@@ -57,7 +57,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Placholder"
+            android:text="@string/placholder"
             android:textColor="@color/collectionDetailsTextColor"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Can't load wallpapers"
+            android:text="@string/can_t_load_wallpapers"
             app:fontFamily="@font/montserrat_bold"
             app:layout_constraintLeft_toLeftOf="@id/imageView"
             app:layout_constraintRight_toRightOf="@id/imageView"
@@ -126,7 +126,7 @@
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Try Again"
+            android:text="@string/try_again"
             android:textColor="@color/colorAccent"
             app:fontFamily="@font/montserrat_bold"
             app:layout_constraintLeft_toLeftOf="@id/textView"

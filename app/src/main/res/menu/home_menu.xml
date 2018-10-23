@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/menu_about_tbg"
-        android:title="About TBG" />
+        android:title="@string/about_tbg" />
 
     <item
         android:id="@+id/menu_settings"
-        android:title="Settings" />
+        android:title="@string/menu_item_settings" />
 
 </menu>
