@@ -21,6 +21,11 @@ The official Codebase of Pixtr's android app.
 <img src="https://i.imgur.com/BkN3BI0.png" width="250">
 
 
-We open sourced this app since Unsplash no longer wanted to give API access to Wallpaper apps. But Pixtr will find a new home soon enough :) Stay tuned for whats next. And also @Androidguy30 has said he plans on updating this codebase frequently so maybe use it as a learning project ? :) 
+## Others
+
+- [Twitter](http://twitter.com/TBGLabs) — Follow us for updates & the latest work
+- [Facebook](https://www.facebook.com/tbglabs/) — Facebook is what you use day in and out? Follow us there to know more.
+- [The Newsletter](https://tbglabs.com/newsletter/) — Get the best work & latest news in your inbox.
+- [Our other Apps](https://play.google.com/store/apps/dev?id=7464987236305760056) — Our other android apps that you might enjoy.
 
 
