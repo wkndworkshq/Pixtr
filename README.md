@@ -25,7 +25,7 @@ The official Codebase of Pixtr's android app.
 
 - [Twitter](http://twitter.com/TBGLabs) — Follow us for updates & the latest work
 - [Facebook](https://www.facebook.com/tbglabs/) — Facebook is what you use day in and out? Follow us there to know more.
-- [The Newsletter](https://tbglabs.com/newsletter/) — Get the best work & latest news in your inbox.
+- [The Newsletter](https://mailchi.mp/3a809c0a098c/tbgl) — Subscribe to our newsletter to know what we are upto.
 - [Our other Apps](https://play.google.com/store/apps/dev?id=7464987236305760056) — Our other android apps that you might enjoy.
 
 
