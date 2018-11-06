@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.tbg.pixtr.R;
 import com.tbg.pixtr.db.preferences.SharedPreferencesUtil;
 import com.tbg.pixtr.model.pojo.common.Urls;
 import com.tbg.pixtr.model.pojo.settings.SettingsPojo;
@@ -51,48 +52,48 @@ public class AppUtils {
      *
      * @return
      */
-    public ArrayList<SettingsPojo> getSettingsList() {
+    public ArrayList<SettingsPojo> getSettingsList(Context context) {
         ArrayList<SettingsPojo> settings = new ArrayList<>();
 
         SettingsPojo settingsPojo = new SettingsPojo();
-        settingsPojo.headerName = "Other";
-        settingsPojo.descriptionName = "NA";
+        settingsPojo.headerName = context.getString(R.string.other);
+        settingsPojo.descriptionName = context.getString(R.string.na);
         settingsPojo.type = 1;
         settings.add(settingsPojo);
 
         settingsPojo = new SettingsPojo();
-        settingsPojo.headerName = "Clear Cache";
-        settingsPojo.descriptionName = "Clear the memory.";
+        settingsPojo.headerName = context.getString(R.string.clear_cache);
+        settingsPojo.descriptionName = context.getString(R.string.clear_the_memory);
         settingsPojo.type = 2;
         settings.add(settingsPojo);
 
         settingsPojo = new SettingsPojo();
-        settingsPojo.headerName = "Go to UnSplash";
-        settingsPojo.descriptionName = "View the Unsplash on browser.";
+        settingsPojo.headerName = context.getString(R.string.go_to_unsplash);
+        settingsPojo.descriptionName = context.getString(R.string.view_in_browser);
         settingsPojo.type = 2;
         settings.add(settingsPojo);
 
         settingsPojo = new SettingsPojo();
         settingsPojo.type = 1;
-        settingsPojo.headerName = "Quality";
-        settingsPojo.descriptionName = "NA";
+        settingsPojo.headerName = context.getString(R.string.quality);
+        settingsPojo.descriptionName = context.getString(R.string.na);
         settings.add(settingsPojo);
 
         settingsPojo = new SettingsPojo();
-        settingsPojo.descriptionName = "Choose the quality of the images loaded.";
-        settingsPojo.headerName = "Load Quality";
+        settingsPojo.headerName = context.getString(R.string.load_quality);
+        settingsPojo.descriptionName = context.getString(R.string.choose_quality_loaded);
         settingsPojo.type = 2;
         settings.add(settingsPojo);
 
         settingsPojo = new SettingsPojo();
-        settingsPojo.headerName = "Download Quality";
-        settingsPojo.descriptionName = "Choose the quality of the images downloaded.";
+        settingsPojo.headerName = context.getString(R.string.download_quality);
+        settingsPojo.descriptionName = context.getString(R.string.choose_quality_downloaded);
         settingsPojo.type = 2;
         settings.add(settingsPojo);
 
         settingsPojo = new SettingsPojo();
-        settingsPojo.headerName = "Wallpaper Quality";
-        settingsPojo.descriptionName = "Choose the quality of the wallpaper set.";
+        settingsPojo.headerName = context.getString(R.string.wallpaper_quality);
+        settingsPojo.descriptionName = context.getString(R.string.choose_quality_wallpaper);
         settingsPojo.type = 2;
         settings.add(settingsPojo);
 

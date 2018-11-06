@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pixtr</string>
+    <string name="app_name" translatable="false">Pixtr</string>
     <string name="artist_placeholder">XYZ artist</string>
     <string name="location_placeholder">India</string>
     <string name="likes_placholder">50 Likes</string>
@@ -9,6 +9,32 @@
     <string name="collection_details_placholder">with love by  Pixtr </string>
     <string name="menu_item_about">About TBG</string>
     <string name="menu_item_settings">Settings</string>
+    <string name="try_again">Try Again</string>
+    <string name="can_t_load_wallpapers">Can\'t load wallpapers</string>
+    <string name="placholder">Placholder</string>
+    <string name="title">Title</string>
+    <string name="can_t_load_collections">Can\'t load collections</string>
+    <string name="powered_by_unsplash">Powered by Unsplash</string>
+    <string name="pixtr" translatable="false">Pixtr</string>
+    <string name="details">Details</string>
+    <string name="follow">Follow</string>
+    <string name="about_tbg">About TBG</string>
+    <string name="description">Description</string>
+    <string name="by_person">By %1$s</string>
+    <string name="quality">Quality</string>
+    <string name="wallpaper_quality">Wallpaper Quality</string>
+    <string name="load_quality">Load Quality</string>
+    <string name="download_quality">Download Quality</string>
+    <string name="cache_cleared">Cache has been cleared</string>
+    <string name="other">Other</string>
+    <string name="na">NA</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_the_memory">Clear the memory.</string>
+    <string name="go_to_unsplash">Go to UnSplash</string>
+    <string name="view_in_browser">View the Unsplash on browser.</string>
+    <string name="choose_quality_loaded">Choose the quality of the images loaded.</string>
+    <string name="choose_quality_downloaded">Choose the quality of the images downloaded.</string>
+    <string name="choose_quality_wallpaper">Choose the quality of the wallpaper set.</string>
 
     <array name="quality_types">
         <item>Raw</item>
@@ -17,5 +43,15 @@
         <item>Small</item>
         <item>Thumb</item>
     </array>
+
+    <plurals name="photos">
+        <item quantity="one">%d Photo</item>
+        <item quantity="other">%d Photos</item>
+    </plurals>
+
+    <plurals name="likes">
+        <item quantity="one">%d Like</item>
+        <item quantity="other">%d Likes</item>
+    </plurals>
 
 </resources>

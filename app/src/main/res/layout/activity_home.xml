@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|left"
-            android:text="Pixtr"
+            android:text="@string/pixtr"
             android:textColor="@color/toolbarTextColor"
             app:fontFamily="@font/montserrat_bold" />
 
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Can't load collections"
+            android:text="@string/can_t_load_collections"
             app:fontFamily="@font/montserrat_bold"
             app:layout_constraintLeft_toLeftOf="@id/imageView"
             app:layout_constraintRight_toRightOf="@id/imageView"
@@ -75,7 +75,7 @@
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Try Again"
+            android:text="@string/try_again"
             android:textColor="@color/colorAccent"
             app:fontFamily="@font/montserrat_bold"
             app:layout_constraintLeft_toLeftOf="@id/textView"

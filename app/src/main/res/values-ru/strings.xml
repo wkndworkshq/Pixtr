@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="download_wallpaper_placeholder">Загрузить фоновое изображение</string>
+    <string name="set_wallpaper_placeholder">Установить фоновое изображение</string>
+    <string name="view_website_placeholdewr">Открыть ссылку</string>
+    <string name="collection_details_placholder">С любовью от Pixtr</string>
+    <string name="menu_item_settings">Настройки</string>
+    <string name="try_again">Попробовать еще раз</string>
+    <string name="can_t_load_wallpapers">Невозможно загрузить изображения</string>
+    <string name="placholder">Здесь могла быть ваша реклама ;)</string>
+    <string name="title">Заголовок</string>
+    <string name="powered_by_unsplash">Powered by Unsplash</string>
+    <string name="can_t_load_collections">Невозможно загрузить коллекции</string>
+    <string name="menu_item_about">Подробнее о TBG</string>
+    <string name="about_tbg">Подробнее о TBG</string>
+    <string name="description">Описание</string>
+    <string name="follow">Следить за обновлениями</string>
+    <string name="details">Подробнее</string>
+    <string name="location_placeholder">Индия</string>
+    <string name="artist_placeholder">Автор XYZ</string>
+    <string name="likes_placholder">50 лайков</string>
+    <string name="by_person">Автор: %1$s</string>
+
+    <array name="quality_types">
+        <item>Исходное</item>
+        <item>Полное</item>
+        <item>Обычное</item>
+        <item>Маленькое</item>
+        <item>Иконка</item>
+    </array>
+
+    <plurals name="photos">
+        <item quantity="one">%d фотография</item>
+        <item quantity="few">%d фотографии</item>
+        <item quantity="many">%d фотографий</item>
+    </plurals>
+
+    <plurals name="likes">
+        <item quantity="one">%d лайк</item>
+        <item quantity="few">%d лайка</item>
+        <item quantity="many">%d лайков</item>
+    </plurals>
+    <string name="quality">Качество</string>
+    <string name="cache_cleared">Кэш был очищен</string>
+    <string name="download_quality">Качество при загрузке</string>
+    <string name="wallpaper_quality">Качество фоновых изображений</string>
+    <string name="load_quality">Качество при просмотре</string>
+    <string name="other">Другое</string>
+    <string name="na">Недоступно</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="clear_the_memory">Очистить память</string>
+    <string name="go_to_unsplash">Посетить веб-страницу UnSplash</string>
+    <string name="view_in_browser">Открыть UnSplash в браузере</string>
+    <string name="choose_quality_loaded">Выбрать качество загружаемыъ изображений</string>
+    <string name="choose_quality_wallpaper">Выбрать качество фоновых изображений</string>
+    <string name="choose_quality_downloaded">Выбрать качество сохраняемых изображений</string>
+
+</resources>

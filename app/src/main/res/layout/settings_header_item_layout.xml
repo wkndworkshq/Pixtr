@@ -13,7 +13,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Title"
+        android:text="@string/title"
         android:textColor="@color/detailTextColor"
         app:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toBottomOf="parent"

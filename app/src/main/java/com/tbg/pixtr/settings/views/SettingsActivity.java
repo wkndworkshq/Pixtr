@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         adapter = new SettingsAdapter();
         preferencesUtil = new SharedPreferencesUtil(this);
 
-        adapter.updateData(appUtils.getSettingsList());
+        adapter.updateData(appUtils.getSettingsList(getBaseContext()));
         adapter.setOnClickListener(this);
         settings.setAdapter(adapter);
         settings.setLayoutManager(new LinearLayoutManager(this));
@@ -68,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         if (position == 1) {
             AsyncTask.execute(() -> {
                 Glide.get(SettingsActivity.this).clearDiskCache();
-                Snackbar.make(settings, "Cache has been cleared", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(settings, R.string.cache_cleared, Snackbar.LENGTH_SHORT).show();
             });
         } else if (position == 2) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -100,16 +100,16 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
      */
     public void displayQualityDialog(AppConstants.QUALITY_FLAGS flags) {
         int position = -1;
-        String headerName = "Quality";
+        String headerName = getString(R.string.quality);
         if (flags == AppConstants.QUALITY_FLAGS.WALLPAPER) {
             position = preferencesUtil.getWallpaperQuality();
-            headerName = "Wallpaper Quality";
+            headerName = getString(R.string.wallpaper_quality);
         } else if (flags == AppConstants.QUALITY_FLAGS.LOAD) {
             position = preferencesUtil.getLoadQuality();
-            headerName = "Load Quality";
+            headerName = getString(R.string.load_quality);
         } else if (flags == AppConstants.QUALITY_FLAGS.DOWNLOAD) {
             position = preferencesUtil.getDownloadQuality();
-            headerName = "Download Quality";
+            headerName = getString(R.string.download_quality);
         }
         new MaterialDialog.Builder(this)
                 .title(headerName)

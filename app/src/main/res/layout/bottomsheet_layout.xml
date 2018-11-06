@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Details"
+        android:text="@string/details"
         android:textColor="@color/toolbarTextColor"
         app:fontFamily="@font/montserrat_bold"
         app:layout_constraintStart_toStartOf="parent"

@@ -133,7 +133,7 @@ public class CollectionDetailActivity extends BaseActivity implements Collection
         listBottomHolder.setText(spannableString);
 
         name.setText(data.title);
-        noImages.setText(data.totalPhotos + " Photos");
+        noImages.setText(getResources().getQuantityString(R.plurals.photos, data.totalPhotos, data.totalPhotos));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
